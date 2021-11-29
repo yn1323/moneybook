@@ -5,12 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "pog_app2",
+            "name": "moneybook",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "pog_app2 (profile mode)",
+            "name": "moneybook (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
