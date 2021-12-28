@@ -26,23 +26,21 @@ class StatesNotifier extends StateNotifier<StatesType> {
   }
 
   void setLoading(bool isLoading) {
-    final next = prevState();
-    state = next..isLoading = isLoading;
+    state = prevState()..isLoading = isLoading;
   }
 
   void setDate({int year = 0, int month = 0, int week = 0, int day = 0}) {
-    final next = prevState();
     if (year != 0) {
-      state = next..date = state.date.addYears(year);
+      state = prevState()..date = state.date.addYears(year);
     }
     if (month != 0) {
-      state = next..date = state.date.addMonths(month);
+      state = prevState()..date = state.date.addMonths(month);
     }
     if (week != 0) {
-      state = next..date = state.date.addWeeks(week);
+      state = prevState()..date = state.date.addWeeks(week);
     }
     if (day != 0) {
-      state = next..date = state.date.addDays(day);
+      state = prevState()..date = state.date.addDays(day);
     }
   }
 
