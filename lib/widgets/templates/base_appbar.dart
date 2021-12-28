@@ -1,5 +1,8 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/providers/states.dart';
 import 'package:moneybook/widgets/atoms/button_return.dart';
+import 'package:dart_date/dart_date.dart';
+import 'package:moneybook/widgets/organisms/menu_date.dart';
 
 class BaseAppBar extends ConsumerStatefulWidget {
   const BaseAppBar({
@@ -15,11 +18,10 @@ class _BaseAppBar extends ConsumerState<BaseAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    // final test = ref.watch(tmp);
     String currentRoute = ModalRoute.of(context)!.settings.name ?? '';
 
     return AppBar(
-      title: const Text('TITLE', style: TextStyle(color: Colors.black87)),
+      title: const MenuDate(),
       backgroundColor: Colors.grey[200]!,
       elevation: 1,
       actions: <Widget>[

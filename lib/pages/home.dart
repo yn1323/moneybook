@@ -12,8 +12,6 @@ class Home extends ConsumerStatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-
-
 class _HomeState extends ConsumerState<Home> {
   String title = 'TITLE';
   @override
