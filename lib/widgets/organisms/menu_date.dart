@@ -1,31 +1,56 @@
 import 'package:moneybook/imports.dart';
-import 'package:moneybook/providers/states.dart';
+import 'package:moneybook/providers/date.dart';
 
-class MenuDate extends HookConsumerWidget {
-  const MenuDate({Key? key}) : super(key: key);
+class MenuDate extends ConsumerStatefulWidget {
+  const MenuDate({
+    Key? key,
+  }) : super(key: key);
 
-  void setNextMonth(WidgetRef ref, int addMonth) {
-    ref.watch(statesProvider.notifier).setDate(month: addMonth);
+  @override
+  _MenuDate createState() => _MenuDate();
+}
+
+class _MenuDate extends ConsumerState<MenuDate> {
+  String curretDate = '';
+
+  @override
+  void initState() {
+    super.initState();
+    setCurrentDate();
+  }
+
+  void setCurrentDate() {
+    setState(() {
+      curretDate = ref.read(dateProvider.notifier).getYearMonth();
+    });
+  }
+
+  void setNextMonth(int addMonth) {
+    ref.watch(dateProvider.notifier).setDate(month: addMonth);
+    setCurrentDate();
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    DateTime date = ref.watch(statesProvider).date;
-    String currentDate = ref.read(statesProvider.notifier).getYearMonth(date);
+  Widget build(BuildContext context) {
     return Row(
       children: [
-        ElevatedButton(
+        IconButton(
+          icon: const Icon(Icons.arrow_left_sharp),
+          color: Colors.black87,
           onPressed: () {
-            setNextMonth(ref, -1);
+            setNextMonth(-1);
           },
-          child: Text('-'),
         ),
-        Text(currentDate),
-        ElevatedButton(
+        Text(
+          curretDate,
+          style: const TextStyle(color: Colors.black87),
+        ),
+        IconButton(
+          icon: const Icon(Icons.arrow_right_sharp),
+          color: Colors.black87,
           onPressed: () {
-            setNextMonth(ref, 1);
+            setNextMonth(1);
           },
-          child: Text('+'),
         ),
       ],
     );
