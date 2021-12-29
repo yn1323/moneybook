@@ -36,18 +36,13 @@ class _MenuDate extends ConsumerState<MenuDate> {
       children: [
         IconButton(
           icon: const Icon(Icons.arrow_left_sharp),
-          color: Colors.black87,
           onPressed: () {
             setNextMonth(-1);
           },
         ),
-        Text(
-          curretDate,
-          style: const TextStyle(color: Colors.black87),
-        ),
+        Text(curretDate),
         IconButton(
           icon: const Icon(Icons.arrow_right_sharp),
-          color: Colors.black87,
           onPressed: () {
             setNextMonth(1);
           },
