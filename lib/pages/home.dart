@@ -1,8 +1,8 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/screen.dart';
 import 'package:moneybook/widgets/organisms/menu_date.dart';
-import 'package:moneybook/widgets/templates/base_bottom_navigationbar.dart';
-import 'package:moneybook/widgets/templates/base_floating_actionbutton.dart';
+import 'package:moneybook/widgets/parts/base_bottom_navigationbar.dart';
+import 'package:moneybook/widgets/parts/base_floating_actionbutton.dart';
 import 'package:moneybook/widgets/templates/category.dart';
 import 'package:moneybook/widgets/templates/config.dart';
 import 'package:moneybook/widgets/templates/chart.dart';
@@ -50,6 +50,16 @@ class _HomeState extends ConsumerState<Home> {
     );
   }
 
+  Widget getAppTitle(int navigationIndex) {
+    if (navigationIndex == 0 || navigationIndex == 1) {
+      return const MenuDate();
+    } else if (navigationIndex == 3) {
+      return const Text('カテゴリー');
+    } else {
+      return const Text('設定');
+    }
+  }
+
   Widget getScaffold() {
     int navigationIndex = ref.watch(screenProvider).index;
     bool isHome = navigationIndex == 0;
@@ -57,7 +67,7 @@ class _HomeState extends ConsumerState<Home> {
     bool showTab = navigationIndex == 0 || navigationIndex == 1;
     return Scaffold(
       appBar: AppBar(
-        title: const MenuDate(),
+        title: getAppTitle(navigationIndex),
         bottom: showTab
             ? TabBar(
                 tabs: <Widget>[
