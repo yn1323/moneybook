@@ -54,6 +54,7 @@ class _ConfigId extends ConsumerState<ConfigId> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
+                            FocusScope.of(context).unfocus();
                             controller.text = 'initial Id';
                           },
                           style: ElevatedButton.styleFrom(
@@ -63,6 +64,7 @@ class _ConfigId extends ConsumerState<ConfigId> {
                         ElevatedButton(
                           onPressed: () {
                             if (_key.currentState!.validate()) {
+                              FocusScope.of(context).unfocus();
                               print(controller.text);
                             }
                           },

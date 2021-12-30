@@ -64,6 +64,7 @@ class _ConfigCurrency extends ConsumerState<ConfigCurrency> {
                         ElevatedButton(
                           onPressed: () {
                             if (_key.currentState!.validate()) {
+                              FocusScope.of(context).unfocus();
                               print(controller.text);
                               print(currencyIsPrefix);
                             }
