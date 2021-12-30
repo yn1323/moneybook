@@ -1,11 +1,16 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/pages/dbstub.dart';
 import 'package:moneybook/pages/home.dart';
 import 'package:moneybook/themes/schemes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moneybook/pages/config_currency.dart';
 import 'package:moneybook/pages/config_id.dart';
 
-void main() {
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+void main() async {
+  await Hive.initFlutter();
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -34,6 +39,7 @@ class MyApp extends HookConsumerWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const Home(),
+        // '/': (context) => const DbStub(),
         '/config/id': (context) => const ConfigId(),
         '/config/currency': (context) => const ConfigCurrency(),
       },

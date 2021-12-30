@@ -1,4 +1,5 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/providers/currency.dart';
 
 class ConfigCurrency extends ConsumerStatefulWidget {
   const ConfigCurrency({
@@ -14,6 +15,26 @@ class _ConfigCurrency extends ConsumerState<ConfigCurrency> {
   final _key = GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
   bool currencyIsPrefix = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrency();
+  }
+
+  void getCurrency() {
+    Currency initialData = ref.read(currencyProvider.notifier).getCurrency();
+    setState(() {
+      controller.text = initialData.currency;
+      currencyIsPrefix = initialData.isPrefix;
+    });
+  }
+
+  void setCurrency({required String currency, required bool isPrefix}) {
+    ref
+        .read(currencyProvider.notifier)
+        .setCurrency(currency: currency, isPrefix: isPrefix);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +86,11 @@ class _ConfigCurrency extends ConsumerState<ConfigCurrency> {
                           onPressed: () {
                             if (_key.currentState!.validate()) {
                               FocusScope.of(context).unfocus();
-                              print(controller.text);
-                              print(currencyIsPrefix);
+                              setCurrency(
+                                currency: controller.text,
+                                isPrefix: currencyIsPrefix,
+                              );
+                              Navigator.of(context).pop();
                             }
                           },
                           child: const Text('変更'),

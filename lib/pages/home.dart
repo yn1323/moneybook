@@ -1,4 +1,6 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/providers/currency.dart';
+import 'package:moneybook/providers/id.dart';
 import 'package:moneybook/providers/screen.dart';
 import 'package:moneybook/widgets/organisms/menu_date.dart';
 import 'package:moneybook/widgets/parts/base_bottom_navigationbar.dart';
@@ -19,6 +21,17 @@ class Home extends ConsumerStatefulWidget {
 
 class _HomeState extends ConsumerState<Home> {
   String title = 'TITLE';
+
+  void initializeDb() {
+    ref.read(currencyProvider.notifier).initialize();
+    ref.read(idProvider.notifier).initialize();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initializeDb();
+  }
 
   Widget getBody(int index) {
     switch (index) {

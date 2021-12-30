@@ -1,4 +1,5 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/providers/id.dart';
 
 class ConfigId extends ConsumerStatefulWidget {
   const ConfigId({
@@ -14,6 +15,19 @@ class _ConfigId extends ConsumerState<ConfigId> {
   final _key = GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
   final FocusNode focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    String id = ref.read(idProvider.notifier).getId();
+    controller.text = id;
+  }
+
+  void setId({required String id}) {
+    ref.read(idProvider.notifier).setId(id: id);
+  }
+
+  String getinitialId() => ref.read(idProvider.notifier).getInitialId();
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +51,7 @@ class _ConfigId extends ConsumerState<ConfigId> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextFormField(
+                    maxLength: 20,
                     focusNode: focusNode,
                     controller: controller,
                     decoration: const InputDecoration(labelText: 'ID'),
@@ -55,7 +70,7 @@ class _ConfigId extends ConsumerState<ConfigId> {
                         ElevatedButton(
                           onPressed: () {
                             FocusScope.of(context).unfocus();
-                            controller.text = 'initial Id';
+                            controller.text = getinitialId();
                           },
                           style: ElevatedButton.styleFrom(
                               primary: Theme.of(context).colorScheme.secondary),
@@ -65,7 +80,8 @@ class _ConfigId extends ConsumerState<ConfigId> {
                           onPressed: () {
                             if (_key.currentState!.validate()) {
                               FocusScope.of(context).unfocus();
-                              print(controller.text);
+                              setId(id: controller.text);
+                              Navigator.of(context).pop();
                             }
                           },
                           child: const Text('変更'),
