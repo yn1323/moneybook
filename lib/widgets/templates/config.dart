@@ -1,4 +1,6 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/providers/currency.dart';
+import 'package:moneybook/providers/id.dart';
 
 class ConfigList {
   ConfigList({required this.label, required this.trailing, required this.path});
@@ -18,13 +20,22 @@ class Config extends ConsumerStatefulWidget {
 }
 
 class _Config extends ConsumerState<Config> {
-  final List<ConfigList> configList = [
-    ConfigList(
-        label: '共有ID', trailing: '56787567876567876', path: '/config/id'),
-    ConfigList(label: '通貨設定', trailing: '', path: '/config/currency'),
-  ];
+  List<ConfigList> getConfigList({
+    String id = '',
+    String currency = '',
+  }) {
+    return [
+      ConfigList(label: '共有ID', trailing: id, path: '/config/id'),
+      ConfigList(label: '通貨設定', trailing: currency, path: '/config/currency'),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    final id = ref.watch(idProvider);
+    final currency = ref.watch(currencyProvider).currency;
+    final configList = getConfigList(id: id, currency: currency);
+
     return ListView.separated(
       itemCount: configList.length,
       padding: const EdgeInsets.all(8),

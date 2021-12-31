@@ -1,4 +1,5 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/models/currency.dart';
 import 'package:moneybook/providers/currency.dart';
 
 class ConfigCurrency extends ConsumerStatefulWidget {
@@ -19,14 +20,10 @@ class _ConfigCurrency extends ConsumerState<ConfigCurrency> {
   @override
   void initState() {
     super.initState();
-    getCurrency();
-  }
-
-  void getCurrency() {
-    Currency initialData = ref.read(currencyProvider.notifier).getCurrency();
+    Currency c = ref.read(currencyProvider);
     setState(() {
-      controller.text = initialData.currency;
-      currencyIsPrefix = initialData.isPrefix;
+      controller.text = c.currency;
+      currencyIsPrefix = c.isPrefix;
     });
   }
 

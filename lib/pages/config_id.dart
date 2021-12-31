@@ -19,7 +19,7 @@ class _ConfigId extends ConsumerState<ConfigId> {
   @override
   void initState() {
     super.initState();
-    String id = ref.read(idProvider.notifier).getId();
+    String id = ref.read(idProvider);
     controller.text = id;
   }
 

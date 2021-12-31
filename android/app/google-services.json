@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "630900337072",
+    "firebase_url": "https://my-mobile-apk-default-rtdb.firebaseio.com",
+    "project_id": "my-mobile-apk",
+    "storage_bucket": "my-mobile-apk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630900337072:android:af0ecf9feca2df8d868e75",
+        "android_client_info": {
+          "package_name": "com.croissant.cashbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630900337072-vr30bec5r1l14iljscn2gbr79qmfr93t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6L95p-zCv5CG1xtGCi9S37LBZi25Flo0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630900337072-vr30bec5r1l14iljscn2gbr79qmfr93t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -22,15 +22,9 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   String title = 'TITLE';
 
-  void initializeDb() {
-    ref.read(currencyProvider.notifier).initialize();
-    ref.read(idProvider.notifier).initialize();
-  }
-
   @override
   void initState() {
     super.initState();
-    initializeDb();
   }
 
   Widget getBody(int index) {

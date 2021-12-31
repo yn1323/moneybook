@@ -1,7 +1,8 @@
+import 'package:moneybook/firestore/common.dart';
 import 'package:moneybook/imports.dart';
 import 'package:hive/hive.dart';
 
-String initialVal = 'initialId';
+String initialVal = '';
 String hiveKey = 'userid';
 
 class IdNotifier extends StateNotifier<String> {
@@ -9,21 +10,23 @@ class IdNotifier extends StateNotifier<String> {
 
   Box? box;
 
-  void initialize() async {
+  Future<void> initialize() async {
     box = await Hive.openBox(hiveKey);
     if (!box!.containsKey('id')) {
-      box!.put('id', initialVal);
-      box!.put('initialId', initialVal);
+      final randomId = getRandomId();
+      box!.put('id', randomId);
+      box!.put('initialId', randomId);
     }
+    state = box!.get('id');
   }
 
-  String getId() => box!.get('id');
   String getInitialId() => box!.get('initialId');
 
   Future<void> setId({required String id}) async {
     await Future.wait([
       box!.put('id', id),
     ]);
+    state = id;
   }
 }
 
