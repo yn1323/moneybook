@@ -25,6 +25,7 @@ class _ConfigId extends ConsumerState<ConfigId> {
 
   void setId({required String id}) {
     ref.read(idProvider.notifier).setId(id: id);
+    // TODO: リセット処理
   }
 
   String getinitialId() => ref.read(idProvider.notifier).getInitialId();
