@@ -34,6 +34,15 @@ class CategoryNotifier extends StateNotifier<Category> {
     state = next;
     state.update();
   }
+
+  Future<void> add(String addItem) async {
+    final nextItems = prevState().category;
+    nextItems.add(addItem);
+    box = await Hive.openBox(hiveKey);
+    box!.put(hiveKey, nextItems);
+    state = Category(category: nextItems);
+    state.update();
+  }
 }
 
 final categoryProvider = StateNotifierProvider<CategoryNotifier, Category>(

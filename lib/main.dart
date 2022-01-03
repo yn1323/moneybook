@@ -1,4 +1,6 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/pages/category_edit.dart';
+import 'package:moneybook/pages/category_new.dart';
 import 'package:moneybook/pages/home.dart';
 import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
@@ -59,6 +61,8 @@ class MyApp extends HookConsumerWidget {
           // '/': (context) => const DbStub(),
           '/config/id': (context) => const ConfigId(),
           '/config/currency': (context) => const ConfigCurrency(),
+          '/category/new': (context) => const CategoryNew(),
+          '/category/edit': (context) => const CategoryEdit(),
         },
       ),
     );

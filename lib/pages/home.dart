@@ -72,8 +72,19 @@ class _HomeState extends ConsumerState<Home> {
     bool isHome = navigationIndex == 0;
     bool isChart = navigationIndex == 1;
     bool showTab = navigationIndex == 0 || navigationIndex == 1;
+    bool isCategory = navigationIndex == 3;
     return Scaffold(
       appBar: AppBar(
+        actions: isCategory
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/category/new');
+                  },
+                ),
+              ]
+            : [],
         title: getAppTitle(navigationIndex),
         bottom: showTab
             ? TabBar(

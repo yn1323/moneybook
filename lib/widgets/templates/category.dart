@@ -23,7 +23,11 @@ class _Category extends ConsumerState<Category> {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/category/edit');
+                      },
+                      icon: const Icon(Icons.edit)),
                   ReorderableDragStartListener(
                     index: categories.indexOf(category),
                     child: const Icon(Icons.drag_handle),
