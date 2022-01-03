@@ -1,5 +1,6 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/pages/home.dart';
+import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/id.dart';
 import 'package:moneybook/themes/schemes.dart';
@@ -33,6 +34,7 @@ class MyApp extends HookConsumerWidget {
   Future<void> _init(WidgetRef ref) async {
     await ref.read(idProvider.notifier).initialize();
     await ref.read(currencyProvider.notifier).initialize();
+    await ref.read(categoryProvider.notifier).initialize();
   }
 
   @override

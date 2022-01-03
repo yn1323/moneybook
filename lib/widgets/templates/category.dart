@@ -1,4 +1,5 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/providers/category.dart';
 
 class Category extends ConsumerStatefulWidget {
   const Category({
@@ -12,6 +13,29 @@ class Category extends ConsumerStatefulWidget {
 class _Category extends ConsumerState<Category> {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text('category'));
+    final categories = ref.watch(categoryProvider).category;
+    return ReorderableListView(
+      children: categories
+          .map(
+            (category) => ListTile(
+              key: Key(category),
+              title: Text(category),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+                  ReorderableDragStartListener(
+                    index: categories.indexOf(category),
+                    child: const Icon(Icons.drag_handle),
+                  ),
+                ],
+              ),
+            ),
+          )
+          .toList(),
+      onReorder: (int prev, int next) {
+        ref.read(categoryProvider.notifier).reorder(prev, next);
+      },
+    );
   }
 }
