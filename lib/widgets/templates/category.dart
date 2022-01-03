@@ -25,7 +25,11 @@ class _Category extends ConsumerState<Category> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/category/edit');
+                        Navigator.of(context).pushNamed('/category/edit',
+                            arguments: {
+                              'index': categories.indexOf(category),
+                              'category': category
+                            });
                       },
                       icon: const Icon(Icons.edit)),
                   ReorderableDragStartListener(

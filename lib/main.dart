@@ -16,6 +16,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+typedef CategoryEditArgs = Map<String, dynamic>;
+
 void main() async {
   await Hive.initFlutter();
   await Firebase.initializeApp();
