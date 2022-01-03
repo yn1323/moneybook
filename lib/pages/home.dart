@@ -1,7 +1,7 @@
 import 'package:moneybook/imports.dart';
-import 'package:moneybook/providers/currency.dart';
-import 'package:moneybook/providers/id.dart';
 import 'package:moneybook/providers/screen.dart';
+import 'package:moneybook/widgets/atoms/calendar_tab_bar.dart';
+import 'package:moneybook/widgets/atoms/category_tab_bar.dart';
 import 'package:moneybook/widgets/organisms/menu_date.dart';
 import 'package:moneybook/widgets/parts/base_bottom_navigationbar.dart';
 import 'package:moneybook/widgets/parts/base_floating_actionbutton.dart';
@@ -11,6 +11,7 @@ import 'package:moneybook/widgets/templates/chart.dart';
 import 'package:moneybook/widgets/templates/list_daily.dart';
 import 'package:moneybook/widgets/templates/list_monthly.dart';
 import 'package:moneybook/widgets/templates/list_weekly.dart';
+import 'package:moneybook/widgets/templates/member.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -27,17 +28,7 @@ class _HomeState extends ConsumerState<Home> {
     super.initState();
   }
 
-  Widget getBody(int index) {
-    switch (index) {
-      case 3:
-        return const Category();
-      case 4:
-      default:
-        return const Config();
-    }
-  }
-
-  Widget getHomeTab() {
+  Widget getHomeBody() {
     return const TabBarView(
       children: <Widget>[
         ListMonthly(),
@@ -47,12 +38,21 @@ class _HomeState extends ConsumerState<Home> {
     );
   }
 
-  Widget getChartTab() {
+  Widget getChartBody() {
     return const TabBarView(
       children: <Widget>[
         Chart(),
         Chart(),
         Chart(),
+      ],
+    );
+  }
+
+  Widget getCategoryBody() {
+    return const TabBarView(
+      children: <Widget>[
+        Category(),
+        Member(),
       ],
     );
   }
@@ -67,59 +67,64 @@ class _HomeState extends ConsumerState<Home> {
     }
   }
 
-  Widget getScaffold() {
+  List<Widget> appBottom(int navIndex) {
+    if (navIndex == 0 || navIndex == 1) {
+      return CalendarTabBar();
+    } else if (navIndex == 3) {
+      return CategoryTabBar();
+    } else {
+      return [];
+    }
+  }
+
+  List<Widget> appBarActions({int navIndex = 0, int tabIndex = 0}) {
+    final routeName = ModalRoute.of(context)!.settings.name;
+    bool isCategory = routeName == '/category';
+    bool isMember = routeName == '/member';
+    String callbackPage = isCategory ? '/category/new' : '/member/new';
+
+    if (!isCategory || !isMember) {
+      return [];
+    }
+
+    return [
+      IconButton(
+        icon: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).pushNamed(callbackPage);
+        },
+      )
+    ];
+  }
+
+  Widget getBody(int navIndex) {
+    bool isHome = navIndex == 0;
+    bool isChart = navIndex == 1;
+    bool isCategory = navIndex == 3;
+
+    if (isHome) {
+      return getHomeBody();
+    } else if (isChart) {
+      return getChartBody();
+    } else if (isCategory) {
+      return getCategoryBody();
+    } else {
+      return const Config();
+    }
+  }
+
+  Widget getScaffold({dynamic tabIndex = 0}) {
     int navigationIndex = ref.watch(screenProvider).index;
-    bool isHome = navigationIndex == 0;
-    bool isChart = navigationIndex == 1;
-    bool showTab = navigationIndex == 0 || navigationIndex == 1;
-    bool isCategory = navigationIndex == 3;
+    bool showTab =
+        navigationIndex == 0 || navigationIndex == 1 || navigationIndex == 3;
     return Scaffold(
       appBar: AppBar(
-        actions: isCategory
-            ? [
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/category/new');
-                  },
-                ),
-              ]
-            : [],
+        // actions: appBarActions(navIndex: navigationIndex, tabIndex: tabIndex),
         title: getAppTitle(navigationIndex),
-        bottom: showTab
-            ? TabBar(
-                tabs: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      "月別",
-                      style: TextStyle(color: Colors.grey[50]),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      '週別',
-                      style: TextStyle(color: Colors.grey[50]),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      '日別',
-                      style: TextStyle(color: Colors.grey[50]),
-                    ),
-                  )
-                ],
-              )
-            : null,
+        bottom: showTab ? TabBar(tabs: appBottom(navigationIndex)) : null,
       ),
-      body: isHome
-          ? getHomeTab()
-          : isChart
-              ? getChartTab()
-              : getBody(navigationIndex),
-      bottomNavigationBar: BaseBottomNavigationBar(),
+      body: getBody(navigationIndex),
+      bottomNavigationBar: const BaseBottomNavigationBar(tabIndex: 0),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: const BaseFloatingActionButton(),
     );
@@ -128,9 +133,13 @@ class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
     int navigationIndex = ref.watch(screenProvider).index;
-    bool showTab = navigationIndex == 0 || navigationIndex == 1;
+    bool showTab =
+        navigationIndex == 0 || navigationIndex == 1 || navigationIndex == 3;
+    bool isCategory = navigationIndex == 3;
     return showTab
-        ? DefaultTabController(length: 3, child: getScaffold())
+        ? DefaultTabController(
+            length: isCategory ? 2 : 3,
+            child: getScaffold(tabIndex: DefaultTabController.of(context)))
         : getScaffold();
   }
 }

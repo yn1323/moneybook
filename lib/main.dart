@@ -1,10 +1,14 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/pages/category.dart';
 import 'package:moneybook/pages/category_edit.dart';
 import 'package:moneybook/pages/category_new.dart';
 import 'package:moneybook/pages/home.dart';
+import 'package:moneybook/pages/member_edit.dart';
+import 'package:moneybook/pages/member_new.dart';
 import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/id.dart';
+import 'package:moneybook/providers/member.dart';
 import 'package:moneybook/themes/schemes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moneybook/pages/config_currency.dart';
@@ -40,6 +44,7 @@ class MyApp extends HookConsumerWidget {
     await ref.read(idProvider.notifier).initialize();
     await ref.read(currencyProvider.notifier).initialize();
     await ref.read(categoryProvider.notifier).initialize();
+    await ref.read(memberProvider.notifier).initialize();
   }
 
   @override
@@ -61,11 +66,14 @@ class MyApp extends HookConsumerWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const Home(),
+          '/category': (context) => const CategoryPage(),
           // '/': (context) => const DbStub(),
           '/config/id': (context) => const ConfigId(),
           '/config/currency': (context) => const ConfigCurrency(),
           '/category/new': (context) => const CategoryNew(),
           '/category/edit': (context) => const CategoryEdit(),
+          '/member/new': (context) => const MemberNew(),
+          '/member/edit': (context) => const MemberEdit(),
         },
       ),
     );
