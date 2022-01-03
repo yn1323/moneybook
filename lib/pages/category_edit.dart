@@ -22,6 +22,10 @@ class _CategoryEdit extends ConsumerState<CategoryEdit> {
         .edit(index: index, nextCategory: nextCategory);
   }
 
+  void delete(int index) {
+    ref.read(categoryProvider.notifier).delete(index);
+  }
+
   @override
   Widget build(BuildContext context) {
     final args =
@@ -59,8 +63,19 @@ class _CategoryEdit extends ConsumerState<CategoryEdit> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            FocusScope.of(context).unfocus();
+                            delete(index);
+                            Navigator.of(context).pop();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).colorScheme.secondary,
+                          ),
+                          child: const Text('削除'),
+                        ),
                         ElevatedButton(
                           onPressed: () {
                             if (_key.currentState!.validate()) {
@@ -69,7 +84,7 @@ class _CategoryEdit extends ConsumerState<CategoryEdit> {
                               Navigator.of(context).pop();
                             }
                           },
-                          child: const Text('新規追加'),
+                          child: const Text('変更'),
                         ),
                       ],
                     ),

@@ -36,6 +36,7 @@ class MyApp extends HookConsumerWidget {
   }) : super(key: key);
 
   Future<void> _init(WidgetRef ref) async {
+    await Hive.deleteFromDisk();
     await ref.read(idProvider.notifier).initialize();
     await ref.read(currencyProvider.notifier).initialize();
     await ref.read(categoryProvider.notifier).initialize();

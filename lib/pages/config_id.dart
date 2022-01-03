@@ -74,7 +74,8 @@ class _ConfigId extends ConsumerState<ConfigId> {
                             controller.text = getinitialId();
                           },
                           style: ElevatedButton.styleFrom(
-                              primary: Theme.of(context).colorScheme.secondary),
+                            primary: Theme.of(context).colorScheme.secondary,
+                          ),
                           child: const Text('初期IDに戻す'),
                         ),
                         ElevatedButton(
