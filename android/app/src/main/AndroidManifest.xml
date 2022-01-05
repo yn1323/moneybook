@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.croissant.cashbook">
+    package="com.croissantlab.cashbook">
    <application
         android:label="moneybook"
         android:icon="@mipmap/ic_launcher"

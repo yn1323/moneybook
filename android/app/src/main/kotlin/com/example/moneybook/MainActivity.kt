@@ -1,4 +1,4 @@
-package com.croissant.cashbook
+package com.croissantlab.cashbook
 
 import io.flutter.embedding.android.FlutterActivity
 

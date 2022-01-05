@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:630900337072:android:af0ecf9feca2df8d868e75",
         "android_client_info": {
-          "package_name": "com.croissant.cashbook"
+          "package_name": "com.croissantlab.cashbook"
         }
       },
       "oauth_client": [
