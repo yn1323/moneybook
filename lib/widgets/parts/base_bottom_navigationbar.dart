@@ -1,8 +1,8 @@
 import 'package:moneybook/imports.dart';
-import 'package:moneybook/models/category.dart';
 import 'package:moneybook/pages/category.dart';
+import 'package:moneybook/pages/chart.dart';
+import 'package:moneybook/pages/config.dart';
 import 'package:moneybook/pages/home.dart';
-import 'package:moneybook/providers/screen.dart';
 
 class BottomIcon {
   BottomIcon({
@@ -40,21 +40,21 @@ class _BaseBottomNavigationBarState extends State<BaseBottomNavigationBar> {
       icon: Icons.home,
       show: true,
       path: '/',
-      instance: const Home(),
+      instance: const HomePage(),
     ),
     BottomIcon(
       label: 'グラフ',
       icon: Icons.insert_chart_outlined_rounded,
       show: true,
-      path: '/',
-      instance: const Home(),
+      path: '/chart',
+      instance: const ChartPage(),
     ),
     BottomIcon(
       label: '',
       icon: Icons.add,
       show: false,
       path: '/',
-      instance: const Home(),
+      instance: const HomePage(),
     ),
     BottomIcon(
       label: 'カテゴリー',
@@ -67,8 +67,8 @@ class _BaseBottomNavigationBarState extends State<BaseBottomNavigationBar> {
       label: '設定',
       icon: Icons.settings,
       show: true,
-      path: '/',
-      instance: const Home(),
+      path: '/config',
+      instance: const ConfigPage(),
     ),
   ];
 
@@ -85,8 +85,6 @@ class _BaseBottomNavigationBarState extends State<BaseBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.tabIndex);
-
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       elevation: 10,

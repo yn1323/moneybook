@@ -3,20 +3,18 @@ import 'package:moneybook/widgets/atoms/calendar_tab_bar.dart';
 import 'package:moneybook/widgets/organisms/menu_date.dart';
 import 'package:moneybook/widgets/parts/base_bottom_navigationbar.dart';
 import 'package:moneybook/widgets/parts/base_floating_actionbutton.dart';
-import 'package:moneybook/widgets/templates/list_daily.dart';
-import 'package:moneybook/widgets/templates/list_monthly.dart';
-import 'package:moneybook/widgets/templates/list_weekly.dart';
+import 'package:moneybook/widgets/templates/chart.dart';
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({
+class ChartPage extends ConsumerStatefulWidget {
+  const ChartPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  _HomePage createState() => _HomePage();
+  _ChartPage createState() => _ChartPage();
 }
 
-class _HomePage extends ConsumerState<HomePage> {
+class _ChartPage extends ConsumerState<ChartPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -28,12 +26,12 @@ class _HomePage extends ConsumerState<HomePage> {
         ),
         body: const TabBarView(
           children: <Widget>[
-            ListMonthly(),
-            ListWeekly(),
-            ListDaily(),
+            Chart(),
+            Chart(),
+            Chart(),
           ],
         ),
-        bottomNavigationBar: const BaseBottomNavigationBar(tabIndex: 0),
+        bottomNavigationBar: const BaseBottomNavigationBar(tabIndex: 1),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: const BaseFloatingActionButton(),
       ),

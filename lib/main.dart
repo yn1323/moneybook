@@ -1,18 +1,20 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/pages/category.dart';
-import 'package:moneybook/pages/category_edit.dart';
-import 'package:moneybook/pages/category_new.dart';
+import 'package:moneybook/pages/chart.dart';
+import 'package:moneybook/pages/config.dart';
+import 'package:moneybook/pages/modal/category_edit.dart';
+import 'package:moneybook/pages/modal/category_new.dart';
 import 'package:moneybook/pages/home.dart';
-import 'package:moneybook/pages/member_edit.dart';
-import 'package:moneybook/pages/member_new.dart';
+import 'package:moneybook/pages/modal/member_edit.dart';
+import 'package:moneybook/pages/modal/member_new.dart';
 import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/id.dart';
 import 'package:moneybook/providers/member.dart';
 import 'package:moneybook/themes/schemes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:moneybook/pages/config_currency.dart';
-import 'package:moneybook/pages/config_id.dart';
+import 'package:moneybook/pages/modal/config_currency.dart';
+import 'package:moneybook/pages/modal/config_id.dart';
 
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -65,8 +67,10 @@ class MyApp extends HookConsumerWidget {
         theme: ThemeData.from(colorScheme: lightTheme),
         initialRoute: '/',
         routes: {
-          '/': (context) => const Home(),
+          '/': (context) => const HomePage(),
+          '/chart': (context) => const ChartPage(),
           '/category': (context) => const CategoryPage(),
+          '/config': (context) => const ConfigPage(),
           // '/': (context) => const DbStub(),
           '/config/id': (context) => const ConfigId(),
           '/config/currency': (context) => const ConfigCurrency(),
