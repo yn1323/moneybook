@@ -12,6 +12,7 @@ class ButtonReturn extends StatelessWidget {
         Navigator.pop(context);
       },
       icon: const Icon(Icons.arrow_back_sharp),
+      color: Colors.black87,
     );
   }
 }

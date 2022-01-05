@@ -7,6 +7,7 @@ class States {
   States({required this.isLoading});
 
   bool isLoading;
+  DateTime date = DateTime.now();
 
   @override
   String toString() {
@@ -17,9 +18,14 @@ class States {
 class StatesNotifier extends StateNotifier<StatesType> {
   StatesNotifier(StatesType initialTask) : super(initialTask);
 
+  States prevState() {
+    return States(
+      isLoading: state.isLoading,
+    );
+  }
+
   void setLoading(bool isLoading) {
-    StatesType newState = States(isLoading: isLoading);
-    state = newState;
+    state = prevState()..isLoading = isLoading;
   }
 }
 
