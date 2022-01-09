@@ -1,5 +1,7 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/member.dart';
+import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CashNew extends ConsumerStatefulWidget {
   const CashNew({
@@ -13,11 +15,27 @@ class CashNew extends ConsumerStatefulWidget {
 class _CashNew extends ConsumerState<CashNew> {
   final title = '';
   final _key = GlobalKey<FormState>();
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
   final FocusNode focusNode = FocusNode();
+  DateTime date = DateTime.now();
+  DateFormat formatter = DateFormat('yyyy-MM-dd');
 
-  void add(String addItem) {
-    ref.read(memberProvider.notifier).add(addItem);
+  @override
+  void initState() {
+    super.initState();
+    dateController.text = formatter.format(date);
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: date,
+        firstDate: DateTime(1990),
+        lastDate: DateTime.now().add(const Duration(days: 360)));
+    if (picked != null) {
+      setState(() => date = picked);
+      dateController.text = formatter.format(date);
+    }
   }
 
   @override
@@ -36,17 +54,24 @@ class _CashNew extends ConsumerState<CashNew> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextFormField(
-                    maxLength: 16,
-                    focusNode: focusNode,
-                    controller: controller,
-                    decoration: const InputDecoration(labelText: 'メンバー'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'メンバーを入力してください。';
-                      }
-                      return null;
-                    },
+                  GestureDetector(
+                    onTap: () => selectDate(context),
+                    child: AbsorbPointer(
+                      child: TextFormField(
+                        focusNode: focusNode,
+                        controller: dateController,
+                        decoration: const InputDecoration(
+                          labelText: '日付',
+                          prefixIcon: Icon(Icons.today),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return '日付を入力してください。';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -57,7 +82,7 @@ class _CashNew extends ConsumerState<CashNew> {
                           onPressed: () {
                             if (_key.currentState!.validate()) {
                               FocusScope.of(context).unfocus();
-                              add(controller.text);
+                              // add(controller.text);
                               Navigator.of(context).pop();
                             }
                           },
@@ -69,6 +94,36 @@ class _CashNew extends ConsumerState<CashNew> {
                 ],
               ),
             ),
+            ElevatedButton(
+                onPressed: () async {
+                  var result = await showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            leading: Icon(Icons.music_note),
+                            title: Text('Music'),
+                            onTap: () => Navigator.of(context).pop(1),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.videocam),
+                            title: Text('Video'),
+                            onTap: () => Navigator.of(context).pop(2),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.camera),
+                            title: Text('Picture'),
+                            onTap: () => Navigator.of(context).pop(3),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  print('bottom sheet result: $result');
+                },
+                child: const Text('aaa'))
           ],
         ),
       ),

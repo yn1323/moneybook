@@ -1,8 +1,8 @@
 import 'package:moneybook/imports.dart';
-import 'package:moneybook/widgets/atoms/calendar_tab_bar.dart';
-import 'package:moneybook/widgets/organisms/menu_date.dart';
-import 'package:moneybook/widgets/parts/base_bottom_navigationbar.dart';
-import 'package:moneybook/widgets/parts/base_floating_actionbutton.dart';
+import 'package:moneybook/widgets/tab_bar/calendar_tab_bar.dart';
+import 'package:moneybook/widgets/util/menu_date.dart';
+import 'package:moneybook/widgets/util/base_bottom_navigationbar.dart';
+import 'package:moneybook/widgets/util/base_floating_actionbutton.dart';
 import 'package:moneybook/widgets/templates/chart.dart';
 
 class ChartPage extends ConsumerStatefulWidget {

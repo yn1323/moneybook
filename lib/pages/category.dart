@@ -1,7 +1,7 @@
 import 'package:moneybook/imports.dart';
-import 'package:moneybook/widgets/atoms/category_tab_bar.dart';
-import 'package:moneybook/widgets/parts/base_bottom_navigationbar.dart';
-import 'package:moneybook/widgets/parts/base_floating_actionbutton.dart';
+import 'package:moneybook/widgets/tab_bar/category_tab_bar.dart';
+import 'package:moneybook/widgets/util/base_bottom_navigationbar.dart';
+import 'package:moneybook/widgets/util/base_floating_actionbutton.dart';
 import 'package:moneybook/widgets/templates/category.dart';
 import 'package:moneybook/widgets/templates/member.dart';
 
