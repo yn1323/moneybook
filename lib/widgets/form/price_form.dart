@@ -1,36 +1,27 @@
 import 'package:moneybook/imports.dart';
-import 'package:moneybook/providers/category.dart';
+import 'package:moneybook/widgets/form/price_keyboard.dart';
 
-class CategorySelecter extends ConsumerStatefulWidget {
-  const CategorySelecter({
+class PriceForm extends ConsumerStatefulWidget {
+  const PriceForm({
     Key? key,
     required this.controller,
   }) : super(key: key);
 
   final TextEditingController controller;
   @override
-  _CategorySelecter createState() => _CategorySelecter();
+  _PriceForm createState() => _PriceForm();
 }
 
-class _CategorySelecter extends ConsumerState<CategorySelecter> {
+class _PriceForm extends ConsumerState<PriceForm> {
   @override
   Widget build(BuildContext context) {
-    final categories = ref.read(categoryProvider).getCategory();
     return GestureDetector(
       onTap: () async {
         String? result = await showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: categories
-                  .map(
-                    (member) => ListTile(
-                      title: Text(member),
-                      onTap: () => Navigator.of(context).pop(member),
-                    ),
-                  )
-                  .toList(),
+            return PriceKeyboard(
+              controller: widget.controller,
             );
           },
         );
@@ -42,12 +33,12 @@ class _CategorySelecter extends ConsumerState<CategorySelecter> {
         child: TextFormField(
           controller: widget.controller,
           decoration: const InputDecoration(
-            labelText: 'カテゴリー',
-            prefixIcon: Icon(Icons.category),
+            labelText: '金額',
+            prefixIcon: Icon(Icons.attach_money),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'カテゴリーを入力してください。';
+              return '金額を入力してください。';
             }
             return null;
           },
