@@ -73,6 +73,10 @@ class _BaseBottomNavigationBarState extends State<BaseBottomNavigationBar> {
   ];
 
   void clickHandler(BuildContext context, int nextIndex) {
+    if (nextIndex == 2) {
+      Navigator.of(context).pushNamed('/cash/new');
+      return;
+    }
     Navigator.pushAndRemoveUntil(
       context,
       PageRouteBuilder(

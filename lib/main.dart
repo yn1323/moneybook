@@ -2,6 +2,7 @@ import 'package:moneybook/imports.dart';
 import 'package:moneybook/pages/category.dart';
 import 'package:moneybook/pages/chart.dart';
 import 'package:moneybook/pages/config.dart';
+import 'package:moneybook/pages/modal/cash_new.dart';
 import 'package:moneybook/pages/modal/category_edit.dart';
 import 'package:moneybook/pages/modal/category_new.dart';
 import 'package:moneybook/pages/home.dart';
@@ -78,6 +79,7 @@ class MyApp extends HookConsumerWidget {
           '/category/edit': (context) => const CategoryEdit(),
           '/member/new': (context) => const MemberNew(),
           '/member/edit': (context) => const MemberEdit(),
+          '/cash/new': (context) => const CashNew(),
         },
       ),
     );

@@ -9,7 +9,9 @@ class BaseFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       backgroundColor: Theme.of(context).primaryColor,
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pushNamed('/cash/new');
+      },
       child: Icon(
         Icons.add,
         color: Theme.of(context).backgroundColor,

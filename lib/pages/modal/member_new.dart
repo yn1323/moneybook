@@ -40,10 +40,10 @@ class _MemberNew extends ConsumerState<MemberNew> {
                     maxLength: 16,
                     focusNode: focusNode,
                     controller: controller,
-                    decoration: const InputDecoration(labelText: 'カテゴリー'),
+                    decoration: const InputDecoration(labelText: 'メンバー'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'カテゴリーを入力してください。';
+                        return 'メンバーを入力してください。';
                       }
                       return null;
                     },

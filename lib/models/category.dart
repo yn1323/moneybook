@@ -29,4 +29,8 @@ class Category {
       'category': category,
     });
   }
+
+  List<String> getCategory() {
+    return category;
+  }
 }

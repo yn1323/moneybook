@@ -7,13 +7,15 @@
         {
             "name": "moneybook",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "console": "externalTerminal"
         },
         {
             "name": "moneybook (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "console": "externalTerminal"
         }
     ]
 }

@@ -27,4 +27,8 @@ class Member {
       'member': member,
     });
   }
+
+  List<String> getMember() {
+    return member;
+  }
 }
