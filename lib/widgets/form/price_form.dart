@@ -17,6 +17,7 @@ class _PriceForm extends ConsumerState<PriceForm> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         String? result = await showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {

@@ -18,6 +18,7 @@ class _MemberSelecter extends ConsumerState<MemberSelecter> {
     final members = ref.read(memberProvider).getMember();
     return GestureDetector(
       onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         String? result = await showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {

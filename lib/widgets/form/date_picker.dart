@@ -23,6 +23,7 @@ class _DatePicker extends ConsumerState<DatePicker> {
   }
 
   Future<void> selectDate(BuildContext context) async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: widget.initialDate,

@@ -18,6 +18,7 @@ class _CategorySelecter extends ConsumerState<CategorySelecter> {
     final categories = ref.read(categoryProvider).getCategory();
     return GestureDetector(
       onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         String? result = await showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {

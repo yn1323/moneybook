@@ -39,51 +39,55 @@ class _CashNew extends ConsumerState<CashNew> {
         title: Text(title),
         backgroundColor: Colors.orange,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Form(
-                key: _key,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DatePicker(
-                      controller: dateController,
-                      initialDate: DateTime.now(),
-                    ),
-                    MemberSelecter(controller: memberController),
-                    CategorySelecter(controller: categoryController),
-                    PriceForm(controller: priceController),
-                    MemoForm(controller: memoController, focusNode: focusNode),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              FocusScope.of(context).unfocus();
-                              print(dateController.text);
-                              print(memberController.text);
-                              print(categoryController.text);
-                              print(priceController.text);
-                              print(memoController.text);
-                              if (_key.currentState!.validate()) {
-                                // add(controller.text);
-                                // Navigator.of(context).pop();
-                              }
-                            },
-                            child: const Text('新規追加'),
-                          ),
-                        ],
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Form(
+                  key: _key,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DatePicker(
+                        controller: dateController,
+                        initialDate: DateTime.now(),
                       ),
-                    ),
-                  ],
+                      MemberSelecter(controller: memberController),
+                      CategorySelecter(controller: categoryController),
+                      PriceForm(controller: priceController),
+                      MemoForm(
+                          controller: memoController, focusNode: focusNode),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                FocusScope.of(context).unfocus();
+                                print(dateController.text);
+                                print(memberController.text);
+                                print(categoryController.text);
+                                print(priceController.text);
+                                print(memoController.text);
+                                if (_key.currentState!.validate()) {
+                                  // add(controller.text);
+                                  // Navigator.of(context).pop();
+                                }
+                              },
+                              child: const Text('新規追加'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
