@@ -2,11 +2,16 @@ import 'package:moneybook/imports.dart';
 import 'package:intl/intl.dart';
 
 class DatePicker extends ConsumerStatefulWidget {
-  DatePicker({Key? key, required this.controller, DateTime? initialDate})
+  DatePicker(
+      {Key? key,
+      required this.controller,
+      required this.dateSetter,
+      DateTime? initialDate})
       : super(key: key);
 
   final TextEditingController controller;
   final DateTime initialDate = DateTime.now();
+  final Function(DateTime) dateSetter;
 
   @override
   _DatePicker createState() => _DatePicker();
@@ -22,6 +27,13 @@ class _DatePicker extends ConsumerState<DatePicker> {
     widget.controller.text = formatter.format(widget.initialDate);
   }
 
+  void setDate(DateTime d) {
+    DateTime now = DateTime.now();
+    DateTime combined =
+        DateTime(d.year, d.month, d.day, now.hour, now.minute, now.second);
+    widget.dateSetter(combined);
+  }
+
   Future<void> selectDate(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
     final DateTime? picked = await showDatePicker(
@@ -31,6 +43,7 @@ class _DatePicker extends ConsumerState<DatePicker> {
         lastDate: DateTime.now().add(const Duration(days: 360)));
     if (picked != null) {
       widget.controller.text = formatter.format(picked);
+      setDate(picked);
     }
   }
 

@@ -1,10 +1,11 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/models/cash.dart';
+import 'package:moneybook/providers/cash.dart';
 import 'package:moneybook/widgets/form/category_selector.dart';
 import 'package:moneybook/widgets/form/date_picker.dart';
 import 'package:moneybook/widgets/form/member_selecter.dart';
 import 'package:moneybook/widgets/form/memo_form.dart';
 import 'package:moneybook/widgets/form/price_form.dart';
-import 'package:moneybook/widgets/form/price_keyboard.dart';
 
 class CashNew extends ConsumerStatefulWidget {
   const CashNew({
@@ -26,10 +27,27 @@ class _CashNew extends ConsumerState<CashNew> {
   final TextEditingController priceController = TextEditingController(text: '');
   final TextEditingController memoController = TextEditingController(text: '');
   final FocusNode focusNode = FocusNode();
+  DateTime dt = DateTime.now();
 
   @override
   void initState() {
     super.initState();
+    ref.read(cashProvider.notifier).fetch();
+  }
+
+  void dateSetter(DateTime d) {
+    setState(() => dt = d);
+  }
+
+  void add() {
+    final cash = Cash(
+      category: categoryController.text,
+      member: memberController.text,
+      date: dt,
+      price: int.parse(priceController.text),
+      memo: memoController.text,
+    );
+    ref.read(cashProvider.notifier).create(cash);
   }
 
   @override
@@ -54,6 +72,7 @@ class _CashNew extends ConsumerState<CashNew> {
                       DatePicker(
                         controller: dateController,
                         initialDate: DateTime.now(),
+                        dateSetter: dateSetter,
                       ),
                       MemberSelecter(controller: memberController),
                       CategorySelecter(controller: categoryController),
@@ -68,17 +87,12 @@ class _CashNew extends ConsumerState<CashNew> {
                             ElevatedButton(
                               onPressed: () {
                                 FocusScope.of(context).unfocus();
-                                print(dateController.text);
-                                print(memberController.text);
-                                print(categoryController.text);
-                                print(priceController.text);
-                                print(memoController.text);
                                 if (_key.currentState!.validate()) {
-                                  // add(controller.text);
-                                  // Navigator.of(context).pop();
+                                  add();
+                                  Navigator.of(context).pop();
                                 }
                               },
-                              child: const Text('新規追加'),
+                              child: const Text('保存'),
                             ),
                           ],
                         ),
