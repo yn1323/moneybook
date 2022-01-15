@@ -38,7 +38,9 @@ class _DebugPage extends ConsumerState<DebugPage> {
                           arguments: {"id": data[i].id, "date": data[i].date},
                         );
                       }
-                      if (str == '削除') {}
+                      if (str == '削除') {
+                        ref.read(cashProvider.notifier).delete(data[i].id);
+                      }
                     },
                   ),
                   isThreeLine: true,

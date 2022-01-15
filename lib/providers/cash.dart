@@ -25,11 +25,19 @@ class CashNotifier extends StateNotifier<CashList> {
   Future<void> addOneCash(Cash cash, Box? box) async {
     box ??= await open();
     box.add(cash);
+    state = [...state, cash];
   }
 
   Future<void> addMultipleCash(List<Cash> cashList) async {
     Box box = await open();
     box.addAll(cashList);
+  }
+
+  Future<void> deleteOneCash(String cashId, Box? box) async {
+    box ??= await open();
+    List<Cash> newState = [...state];
+    box.delete(newState.firstWhere((element) => element.id == cashId));
+    state = newState.where((Cash element) => element.id != cashId).toList();
   }
 
   Future<List<Cash>> fetch() async {
@@ -68,6 +76,13 @@ class CashNotifier extends StateNotifier<CashList> {
       'price': newCash.price,
       'targetId': id,
     });
+    addOneCash(newCash, null);
+  }
+
+  Future<void> delete(String cashId) async {
+    final doc = getDoc();
+    await doc.collection('data').doc(cashId).delete();
+    deleteOneCash(cashId, null);
   }
 }
 
