@@ -17,6 +17,7 @@ class CategoryNotifier extends StateNotifier<Category> {
 
   Future<void> initialize() async {
     box = await Hive.openBox(hiveKey);
+    box!.clear();
     final categoryList = await state.fetch();
     box!.put(hiveKey, categoryList);
     state = Category(

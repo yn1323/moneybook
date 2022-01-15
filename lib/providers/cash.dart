@@ -10,13 +10,26 @@ const String hiveKey = 'data';
 class CashNotifier extends StateNotifier<CashList> {
   CashNotifier(CashList initial) : super([]);
 
+  Future<Box> open() async {
+    return await Hive.openBox<Cash>(hiveKey);
+  }
+
   Future<void> initialize() async {
-    Box box = await Hive.openBox(hiveKey);
-    // final categoryList = await state.fetch();
-    // box.put(hiveKey, categoryList);
-    // state = Category(
-    //   category: box.get(hiveKey),
-    // );
+    Box box = await open();
+    box.clear();
+    final cashList = await fetch();
+    addMultipleCash(cashList);
+    state = cashList;
+  }
+
+  Future<void> addOneCash(Cash cash, Box? box) async {
+    box ??= await open();
+    box.add(cash);
+  }
+
+  Future<void> addMultipleCash(List<Cash> cashList) async {
+    Box box = await open();
+    box.addAll(cashList);
   }
 
   Future<List<Cash>> fetch() async {
@@ -25,9 +38,10 @@ class CashNotifier extends StateNotifier<CashList> {
     try {
       final data =
           await doc.collection('data').where('targetId', isEqualTo: id).get();
-      List<Cash> list = data.docs.map((e) {
+      List<Cash> cashList = data.docs.map((e) {
         final d = e.data();
         return Cash(
+          id: e.id,
           category: d['category'],
           member: d['member'],
           date: d['date'].toDate(),
@@ -36,9 +50,7 @@ class CashNotifier extends StateNotifier<CashList> {
         );
       }).toList();
 
-      print('data@@@@');
-      // print(list[0].date);
-      return [];
+      return cashList;
     } catch (e) {
       print(e);
     }
@@ -48,7 +60,7 @@ class CashNotifier extends StateNotifier<CashList> {
   Future<void> create(Cash newCash) async {
     final doc = getDoc();
     final id = await getShareId();
-    await doc.collection('data').add({
+    await doc.collection('data').doc(newCash.id).set({
       'category': newCash.category,
       'date': Timestamp.fromDate(newCash.date),
       'member': newCash.member,

@@ -1,3 +1,4 @@
+import 'package:moneybook/firestore/common.dart';
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/models/cash.dart';
 import 'package:moneybook/providers/cash.dart';
@@ -39,8 +40,9 @@ class _CashNew extends ConsumerState<CashNew> {
     setState(() => dt = d);
   }
 
-  void add() {
+  void add(String? id) {
     final cash = Cash(
+      id: id ??= getRandomId(),
       category: categoryController.text,
       member: memberController.text,
       date: dt,
@@ -50,8 +52,35 @@ class _CashNew extends ConsumerState<CashNew> {
     ref.read(cashProvider.notifier).create(cash);
   }
 
+  void setInitialVal(String? id) {
+    if (id != null) {
+      try {
+        Cash cash = ref.watch(cashProvider).firstWhere((cash) => cash.id == id);
+        memberController.text = cash.member;
+        categoryController.text = cash.category;
+        priceController.text = cash.price.toString();
+        memoController.text = cash.memo;
+        dateSetter(cash.date);
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isEdit = ModalRoute.of(context)?.settings.name == '/cash/edit';
+    String? id;
+    DateTime currentDate = DateTime.now();
+
+    if (isEdit) {
+      final args =
+          ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+      id = args['id'] as String;
+      currentDate = args['date'] as DateTime;
+      setInitialVal(id);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -71,7 +100,7 @@ class _CashNew extends ConsumerState<CashNew> {
                     children: [
                       DatePicker(
                         controller: dateController,
-                        initialDate: DateTime.now(),
+                        initialDate: currentDate,
                         dateSetter: dateSetter,
                       ),
                       MemberSelecter(controller: memberController),
@@ -88,7 +117,7 @@ class _CashNew extends ConsumerState<CashNew> {
                               onPressed: () {
                                 FocusScope.of(context).unfocus();
                                 if (_key.currentState!.validate()) {
-                                  add();
+                                  add(id);
                                   Navigator.of(context).pop();
                                 }
                               },

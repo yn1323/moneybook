@@ -2,15 +2,15 @@ import 'package:moneybook/imports.dart';
 import 'package:intl/intl.dart';
 
 class DatePicker extends ConsumerStatefulWidget {
-  DatePicker(
-      {Key? key,
-      required this.controller,
-      required this.dateSetter,
-      DateTime? initialDate})
-      : super(key: key);
+  const DatePicker({
+    Key? key,
+    required this.controller,
+    required this.dateSetter,
+    required this.initialDate,
+  }) : super(key: key);
 
   final TextEditingController controller;
-  final DateTime initialDate = DateTime.now();
+  final DateTime initialDate;
   final Function(DateTime) dateSetter;
 
   @override

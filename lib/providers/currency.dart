@@ -19,6 +19,7 @@ class CurrencyNotifier extends StateNotifier<Currency> {
 
   Future<void> initialize() async {
     box = await Hive.openBox(hiveKey);
+    box!.clear();
     final initial = await state.fetch();
     box!.put('currency', initial.currency);
     box!.put('isPrefix', initial.isPrefix);

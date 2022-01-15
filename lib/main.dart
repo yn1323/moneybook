@@ -1,13 +1,16 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/models/cash.dart';
 import 'package:moneybook/pages/category.dart';
 import 'package:moneybook/pages/chart.dart';
 import 'package:moneybook/pages/config.dart';
+import 'package:moneybook/pages/debug.dart';
 import 'package:moneybook/pages/modal/cash_new.dart';
 import 'package:moneybook/pages/modal/category_edit.dart';
 import 'package:moneybook/pages/modal/category_new.dart';
 import 'package:moneybook/pages/home.dart';
 import 'package:moneybook/pages/modal/member_edit.dart';
 import 'package:moneybook/pages/modal/member_new.dart';
+import 'package:moneybook/providers/cash.dart';
 import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/id.dart';
@@ -27,6 +30,7 @@ typedef CategoryEditArgs = Map<String, dynamic>;
 
 void main() async {
   await Hive.initFlutter();
+  Hive.registerAdapter<Cash>(CashAdapter());
   await Firebase.initializeApp();
   final auth = FirebaseAuth.instance;
   await auth.signInAnonymously();
@@ -43,11 +47,12 @@ class MyApp extends HookConsumerWidget {
   }) : super(key: key);
 
   Future<void> _init(WidgetRef ref) async {
-    await Hive.deleteFromDisk();
+    // await Hive.deleteFromDisk();
     await ref.read(idProvider.notifier).initialize();
     await ref.read(currencyProvider.notifier).initialize();
     await ref.read(categoryProvider.notifier).initialize();
     await ref.read(memberProvider.notifier).initialize();
+    await ref.read(cashProvider.notifier).initialize();
   }
 
   @override
@@ -68,7 +73,7 @@ class MyApp extends HookConsumerWidget {
         theme: ThemeData.from(colorScheme: lightTheme),
         initialRoute: '/',
         routes: {
-          '/': (context) => const HomePage(),
+          '/': (context) => const DebugPage(),
           '/chart': (context) => const ChartPage(),
           '/category': (context) => const CategoryPage(),
           '/config': (context) => const ConfigPage(),
@@ -80,6 +85,7 @@ class MyApp extends HookConsumerWidget {
           '/member/new': (context) => const MemberNew(),
           '/member/edit': (context) => const MemberEdit(),
           '/cash/new': (context) => const CashNew(),
+          '/cash/edit': (context, {id}) => const CashNew(),
         },
       ),
     );

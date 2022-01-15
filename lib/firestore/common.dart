@@ -5,7 +5,7 @@ const String collectionName = 'app';
 const String docName = 'moneymanage2';
 
 String getRandomId() =>
-    FirebaseFirestore.instance.collection(collectionName).doc(docName).id;
+    FirebaseFirestore.instance.collection(collectionName).doc().id;
 
 Future<String> getShareId() async {
   final box = await Hive.openBox('userid');

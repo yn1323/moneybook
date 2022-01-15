@@ -17,6 +17,7 @@ class MemberNotifier extends StateNotifier<Member> {
 
   Future<void> initialize() async {
     box = await Hive.openBox(hiveKey);
+    box!.clear();
     final memberList = await state.fetch();
     box!.put(hiveKey, memberList);
     state = Member(
