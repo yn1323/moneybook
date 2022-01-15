@@ -1,5 +1,6 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/cash.dart';
+import 'package:moneybook/providers/date.dart';
 import 'package:moneybook/widgets/button/popup_menu.dart';
 import 'package:moneybook/widgets/util/menu_date.dart';
 import 'package:moneybook/widgets/util/base_bottom_navigationbar.dart';
@@ -17,7 +18,11 @@ class DebugPage extends ConsumerStatefulWidget {
 class _DebugPage extends ConsumerState<DebugPage> {
   @override
   Widget build(BuildContext context) {
-    final data = ref.watch(cashProvider);
+    final date = ref.watch(dateProvider).date;
+    ref.watch(cashProvider);
+    final data = ref
+        .watch(cashProvider.notifier)
+        .filterCashList(year: date.year, month: date.month);
 
     return Scaffold(
       appBar: AppBar(

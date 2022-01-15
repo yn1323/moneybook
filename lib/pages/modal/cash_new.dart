@@ -33,7 +33,6 @@ class _CashNew extends ConsumerState<CashNew> {
   @override
   void initState() {
     super.initState();
-    ref.read(cashProvider.notifier).fetch();
   }
 
   void dateSetter(DateTime d) {

@@ -17,20 +17,27 @@ class CashNotifier extends StateNotifier<CashList> {
   Future<void> initialize() async {
     Box box = await open();
     box.clear();
-    final cashList = await fetch();
-    addMultipleCash(cashList);
+    final currentDate = DateTime.now();
+    final cashList =
+        await fetch(year: currentDate.year, month: currentDate.month);
     state = cashList;
   }
 
   Future<void> addOneCash(Cash cash, Box? box) async {
     box ??= await open();
     box.add(cash);
-    state = [...state, cash];
+    if (state.every((element) => element.id != cash.id)) {
+      state = [...state, cash];
+    }
   }
 
   Future<void> addMultipleCash(List<Cash> cashList) async {
     Box box = await open();
     box.addAll(cashList);
+    List<Cash> noDupliteList = cashList.where((cash) {
+      return state.every((element) => element.id != cash.id);
+    }).toList();
+    state = [...state, ...noDupliteList];
   }
 
   Future<void> deleteOneCash(String cashId, Box? box) async {
@@ -40,12 +47,20 @@ class CashNotifier extends StateNotifier<CashList> {
     state = newState.where((Cash element) => element.id != cashId).toList();
   }
 
-  Future<List<Cash>> fetch() async {
+  Future<List<Cash>> fetch({int year = 2022, int month = 1}) async {
+    DateTime dateFrom = DateTime(year, month, 1);
+    DateTime dateTo = DateTime(year, month + 1, 1);
     final doc = getDoc();
     final id = await getShareId();
     try {
-      final data =
-          await doc.collection('data').where('targetId', isEqualTo: id).get();
+      final data = await doc
+          .collection('data')
+          .where('targetId', isEqualTo: id)
+          .where("date",
+              isGreaterThanOrEqualTo:
+                  DateTime(dateFrom.year, dateFrom.month, 1))
+          .where('date', isLessThan: DateTime(dateTo.year, dateTo.month, 1))
+          .get();
       List<Cash> cashList = data.docs.map((e) {
         final d = e.data();
         return Cash(
@@ -57,7 +72,7 @@ class CashNotifier extends StateNotifier<CashList> {
           memo: d['memo'],
         );
       }).toList();
-
+      addMultipleCash(cashList);
       return cashList;
     } catch (e) {
       print(e);
@@ -83,6 +98,17 @@ class CashNotifier extends StateNotifier<CashList> {
     final doc = getDoc();
     await doc.collection('data').doc(cashId).delete();
     deleteOneCash(cashId, null);
+  }
+
+  List<Cash> filterCashList({int year = 2022, int month = 1}) {
+    DateTime dateFrom = DateTime(year, month, 1);
+    DateTime dateTo = DateTime(year, month + 1, 1);
+
+    List<Cash> data = state
+        .where(
+            (cash) => cash.date.isAfter(dateFrom) && cash.date.isBefore(dateTo))
+        .toList();
+    return data;
   }
 }
 
