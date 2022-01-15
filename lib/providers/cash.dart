@@ -26,18 +26,15 @@ class CashNotifier extends StateNotifier<CashList> {
   Future<void> addOneCash(Cash cash, Box? box) async {
     box ??= await open();
     box.add(cash);
-    if (state.every((element) => element.id != cash.id)) {
-      state = [...state, cash];
-    }
+    List<Cash> trimmed =
+        state.where((element) => element.id != cash.id).toList();
+    state = [...trimmed, cash];
   }
 
   Future<void> addMultipleCash(List<Cash> cashList) async {
     Box box = await open();
     box.addAll(cashList);
-    List<Cash> noDupliteList = cashList.where((cash) {
-      return state.every((element) => element.id != cash.id);
-    }).toList();
-    state = [...state, ...noDupliteList];
+    state = [...cashList];
   }
 
   Future<void> deleteOneCash(String cashId, Box? box) async {

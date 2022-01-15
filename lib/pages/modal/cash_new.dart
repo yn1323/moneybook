@@ -29,6 +29,7 @@ class _CashNew extends ConsumerState<CashNew> {
   final TextEditingController memoController = TextEditingController(text: '');
   final FocusNode focusNode = FocusNode();
   DateTime dt = DateTime.now();
+  bool isExecuted = false;
 
   @override
   void initState() {
@@ -52,7 +53,7 @@ class _CashNew extends ConsumerState<CashNew> {
   }
 
   void setInitialVal(String? id) {
-    if (id != null) {
+    if (id != null && !isExecuted) {
       try {
         Cash cash = ref.watch(cashProvider).firstWhere((cash) => cash.id == id);
         memberController.text = cash.member;
@@ -64,6 +65,7 @@ class _CashNew extends ConsumerState<CashNew> {
         print(e);
       }
     }
+    setState(() => isExecuted = true);
   }
 
   @override
