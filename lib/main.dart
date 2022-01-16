@@ -3,11 +3,12 @@ import 'package:moneybook/models/cash.dart';
 import 'package:moneybook/pages/category.dart';
 import 'package:moneybook/pages/chart.dart';
 import 'package:moneybook/pages/config.dart';
-import 'package:moneybook/pages/debug.dart';
+// import 'package:moneybook/pages/debug.dart';
 import 'package:moneybook/pages/modal/cash_new.dart';
 import 'package:moneybook/pages/modal/category_edit.dart';
 import 'package:moneybook/pages/modal/category_new.dart';
 import 'package:moneybook/pages/home.dart';
+import 'package:moneybook/pages/modal/filter.dart';
 import 'package:moneybook/pages/modal/member_edit.dart';
 import 'package:moneybook/pages/modal/member_new.dart';
 import 'package:moneybook/providers/cash.dart';
@@ -73,7 +74,7 @@ class MyApp extends HookConsumerWidget {
         theme: ThemeData.from(colorScheme: lightTheme),
         initialRoute: '/',
         routes: {
-          '/': (context) => const DebugPage(),
+          '/': (context) => const HomePage(),
           '/chart': (context) => const ChartPage(),
           '/category': (context) => const CategoryPage(),
           '/config': (context) => const ConfigPage(),
@@ -86,6 +87,7 @@ class MyApp extends HookConsumerWidget {
           '/member/edit': (context) => const MemberEdit(),
           '/cash/new': (context) => const CashNew(),
           '/cash/edit': (context, {id}) => const CashNew(),
+          '/filter': (context, {id}) => const Filter(),
         },
       ),
     );

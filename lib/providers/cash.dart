@@ -72,6 +72,7 @@ class CashNotifier extends StateNotifier<CashList> {
       addMultipleCash(cashList);
       return cashList;
     } catch (e) {
+      print("cash provider");
       print(e);
     }
     return [];

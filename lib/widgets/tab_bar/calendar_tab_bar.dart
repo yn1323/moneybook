@@ -6,14 +6,7 @@ List<Widget> CalendarTabBar() {
     Padding(
       padding: const EdgeInsets.all(12.0),
       child: Text(
-        "月別",
-        style: TextStyle(color: Colors.grey[50]),
-      ),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Text(
-        '週別',
+        "リスト",
         style: TextStyle(color: Colors.grey[50]),
       ),
     ),
@@ -21,6 +14,13 @@ List<Widget> CalendarTabBar() {
       padding: const EdgeInsets.all(12.0),
       child: Text(
         '日別',
+        style: TextStyle(color: Colors.grey[50]),
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Text(
+        '月別',
         style: TextStyle(color: Colors.grey[50]),
       ),
     )
