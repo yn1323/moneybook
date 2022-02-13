@@ -53,7 +53,6 @@ class MyApp extends HookConsumerWidget {
     await ref.read(currencyProvider.notifier).initialize();
     await ref.read(categoryProvider.notifier).initialize();
     await ref.read(memberProvider.notifier).initialize();
-    await ref.read(cashProvider.notifier).initialize();
   }
 
   @override

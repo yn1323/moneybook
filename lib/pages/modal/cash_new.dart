@@ -55,7 +55,10 @@ class _CashNew extends ConsumerState<CashNew> {
   void setInitialVal(String? id) {
     if (id != null && !isExecuted) {
       try {
-        Cash cash = ref.watch(cashProvider).firstWhere((cash) => cash.id == id);
+        Cash? cash = ref.read(cashProvider.notifier).findCashById(id);
+        if (cash == null) {
+          throw Error;
+        }
         memberController.text = cash.member;
         categoryController.text = cash.category;
         priceController.text = cash.price.toString();

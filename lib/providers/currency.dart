@@ -1,6 +1,7 @@
 import 'package:moneybook/imports.dart';
 import 'package:hive/hive.dart';
 import 'package:moneybook/models/currency.dart';
+import 'package:moneybook/src/helper/string.dart';
 
 Currency initialVal = Currency(currency: '¥', isPrefix: true, isSuffix: false);
 String hiveKey = 'currency';
@@ -45,6 +46,15 @@ class CurrencyNotifier extends StateNotifier<Currency> {
       ..isSuffix = !isPrefix;
     state = next;
     state.update();
+  }
+
+  String joinCurrency(int price) {
+    String strPrice = addComma(price);
+    if (state.isPrefix) {
+      return "${state.currency}$strPrice";
+    } else {
+      return "$strPrice${state.currency}";
+    }
   }
 }
 
