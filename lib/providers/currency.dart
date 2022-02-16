@@ -1,14 +1,45 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:moneybook/firestore/common.dart';
 import 'package:moneybook/imports.dart';
-import 'package:hive/hive.dart';
 import 'package:moneybook/models/currency.dart';
 import 'package:moneybook/src/helper/string.dart';
 
 Currency initialVal = Currency(currency: '¥', isPrefix: true, isSuffix: false);
-String hiveKey = 'currency';
 
 class CurrencyNotifier extends StateNotifier<Currency> {
   CurrencyNotifier(Currency initial) : super(initial);
-  Box? box;
+  StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _subscribe;
+
+  void unsubscribe() => _subscribe?.cancel();
+  Future<void> subscribe({required String id}) async {
+    if (_subscribe != null) {
+      return;
+    }
+    final doc = getDoc();
+    final id = await getShareId();
+    _subscribe = doc.collection('currency').doc(id).snapshots().listen((event) {
+      final data = event.data();
+      if (data?['currency'] && data?['isPrefix'] && data?['isSuffix']) {
+        state = Currency(
+          currency: data?['currency'],
+          isPrefix: data?['isPrefix'],
+          isSuffix: data?['isSuffix'],
+        );
+      }
+    });
+  }
+
+  Future<void> _update(Currency currency) async {
+    final doc = getDoc();
+    final id = await getShareId();
+    await doc.collection('currency').doc(id).set({
+      'currency': currency.currency,
+      'isPrefix': currency.isPrefix,
+      'isSuffix': currency.isSuffix,
+    });
+  }
 
   Currency prevState() {
     return Currency(
@@ -18,43 +49,21 @@ class CurrencyNotifier extends StateNotifier<Currency> {
     );
   }
 
-  Future<void> initialize() async {
-    box = await Hive.openBox(hiveKey);
-    box!.clear();
-    final initial = await state.fetch();
-    box!.put('currency', initial.currency);
-    box!.put('isPrefix', initial.isPrefix);
-    box!.put('isSuffix', initial.isSuffix);
-    state = Currency(
-      currency: box!.get('currency'),
-      isPrefix: box!.get('isPrefix'),
-      isSuffix: box!.get('isSuffix'),
-    );
-  }
-
   Future<void> setCurrency(
       {required String currency, required bool isPrefix}) async {
-    await Future.wait([
-      box!.put('currency', currency),
-      box!.put('isPrefix', isPrefix),
-      box!.put('isSuffix', !isPrefix),
-    ]);
     final next = prevState();
     next
       ..currency = currency
       ..isPrefix = isPrefix
       ..isSuffix = !isPrefix;
-    state = next;
-    state.update();
+    _update(next);
   }
 
   String joinCurrency(int price) {
     String strPrice = addComma(price);
-    if (state.isPrefix) {
-      return "${state.currency}$strPrice";
-    } else {
-      return "$strPrice${state.currency}";
-    }
+    return state.isPrefix
+        ? "${state.currency}$strPrice"
+        : "$strPrice${state.currency}";
   }
 }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moneybook/firestore/common.dart';
 import 'package:moneybook/imports.dart';
@@ -9,12 +11,46 @@ const String hiveKey = 'data';
 
 class CashNotifier extends StateNotifier<AllCashList> {
   CashNotifier(AllCashList initial) : super({});
-  final fetched = [];
+  final Map<String, StreamSubscription<QuerySnapshot<Map<String, dynamic>>>>
+      _subscribes = {};
 
   Cash getOneCash({int year = 2022, int month = 1, String id = 'id'}) {
-    String dateStr = '$year-$month';
+    String dateStr = _dateStr(year: year, month: month);
     List<Cash> list = state[dateStr] ?? [];
     return list.firstWhere((element) => element.id == id);
+  }
+
+  String _dateStr({int year = 2022, int month = 1}) => '$year-$month';
+  bool _isSubscribing({int year = 2022, int month = 1}) =>
+      _subscribes.keys.contains(_dateStr(year: year, month: month));
+
+  void unsubscribeAll() =>
+      _subscribes.forEach((k, _) => _subscribes[k]?.cancel());
+
+  Future<void> _subscribe(
+      {int year = 2022,
+      int month = 1,
+      required void Function(QuerySnapshot<Map<String, dynamic>>)?
+          onData}) async {
+    final dateStr = _dateStr(year: year, month: month);
+
+    if (_subscribes.keys.contains(dateStr)) {
+      return;
+    }
+
+    final doc = getDoc();
+    final id = await getShareId();
+    DateTime dateFrom = DateTime(year, month, 1);
+    DateTime dateTo = DateTime(year, month + 1, 1);
+    _subscribes[dateStr] = doc
+        .collection('data')
+        .where('targetId', isEqualTo: id)
+        .where("date",
+            isGreaterThanOrEqualTo: DateTime(dateFrom.year, dateFrom.month, 1))
+        .where('date', isLessThan: DateTime(dateTo.year, dateTo.month, 1))
+        .orderBy("date", descending: true)
+        .snapshots()
+        .listen(onData);
   }
 
   Cash? findCashById(String id) {
@@ -25,46 +61,37 @@ class CashNotifier extends StateNotifier<AllCashList> {
     }
   }
 
-  void fetch({int year = 2022, int month = 1}) async {
-    final dateStr = '$year-$month';
-    if (fetched.contains('$year-$month')) {
+  void Function(QuerySnapshot<Map<String, dynamic>>) setCash(
+      {int year = 2022, int month = 1}) {
+    final dateStr = _dateStr(year: year, month: month);
+
+    return (data) {
+      CashList list = data.docs.map((e) {
+        final d = e.data();
+        return Cash(
+          id: e.id,
+          category: d['category'],
+          member: d['member'],
+          date: d['date'].toDate(),
+          price: d['price'],
+          memo: d['memo'],
+        );
+      }).toList();
+      final AllCashList newState = Map.from(state);
+      newState[dateStr] = list;
+      state = newState;
+    };
+  }
+
+  void subscribe({int year = 2022, int month = 1}) async {
+    if (_isSubscribing(year: year, month: month)) {
       return;
     }
-    fetched.add(dateStr);
-    DateTime dateFrom = DateTime(year, month, 1);
-    DateTime dateTo = DateTime(year, month + 1, 1);
-
-    final doc = getDoc();
-    final id = await getShareId();
     try {
-      final ref = doc
-          .collection('data')
-          .where('targetId', isEqualTo: id)
-          .where("date",
-              isGreaterThanOrEqualTo:
-                  DateTime(dateFrom.year, dateFrom.month, 1))
-          .where('date', isLessThan: DateTime(dateTo.year, dateTo.month, 1))
-          .orderBy("date", descending: true);
-      ref.snapshots().listen((data) {
-        CashList list = data.docs.map((e) {
-          final d = e.data();
-          return Cash(
-            id: e.id,
-            category: d['category'],
-            member: d['member'],
-            date: d['date'].toDate(),
-            price: d['price'],
-            memo: d['memo'],
-          );
-        }).toList();
-        final AllCashList newState = Map.from(state);
-        newState[dateStr] = list;
-        state = newState;
-      }, onError: (error) {
-        print(error);
-      });
+      await _subscribe(
+          year: year, month: month, onData: setCash(year: year, month: month));
     } catch (e) {
-      print("cash provider");
+      print("cash provider subscribe error");
       print(e);
     }
   }

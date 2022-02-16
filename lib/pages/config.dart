@@ -1,4 +1,5 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/providers/fragments/initialize_subscribe.dart';
 import 'package:moneybook/widgets/util/base_bottom_navigationbar.dart';
 import 'package:moneybook/widgets/util/base_floating_actionbutton.dart';
 import 'package:moneybook/widgets/templates/config.dart';
@@ -17,6 +18,8 @@ class _ConfigPage extends ConsumerState<ConfigPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(initializeSubscribe);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
