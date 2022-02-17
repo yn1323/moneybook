@@ -20,8 +20,8 @@ class CurrencyNotifier extends StateNotifier<Currency> {
     final doc = getDoc();
     final id = await getShareId();
     _subscribe = doc.collection('currency').doc(id).snapshots().listen((event) {
-      final data = event.data();
-      if (data?['currency'] && data?['isPrefix'] && data?['isSuffix']) {
+      if (event.exists) {
+        final data = event.data();
         state = Currency(
           currency: data?['currency'],
           isPrefix: data?['isPrefix'],

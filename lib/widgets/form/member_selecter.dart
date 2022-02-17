@@ -15,7 +15,7 @@ class MemberSelecter extends ConsumerStatefulWidget {
 class _MemberSelecter extends ConsumerState<MemberSelecter> {
   @override
   Widget build(BuildContext context) {
-    final members = ref.read(memberProvider).getMember();
+    final members = ref.read(memberProvider);
     return GestureDetector(
       onTap: () async {
         FocusManager.instance.primaryFocus?.unfocus();

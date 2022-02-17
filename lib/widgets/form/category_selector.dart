@@ -15,7 +15,7 @@ class CategorySelecter extends ConsumerStatefulWidget {
 class _CategorySelecter extends ConsumerState<CategorySelecter> {
   @override
   Widget build(BuildContext context) {
-    final categories = ref.read(categoryProvider).getCategory();
+    final categories = ref.read(categoryProvider);
     return GestureDetector(
       onTap: () async {
         FocusManager.instance.primaryFocus?.unfocus();

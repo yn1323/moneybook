@@ -1,5 +1,6 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/member.dart';
+import 'package:moneybook/src/helper/list.dart';
 
 class Member extends ConsumerStatefulWidget {
   const Member({
@@ -13,9 +14,9 @@ class Member extends ConsumerStatefulWidget {
 class _Member extends ConsumerState<Member> {
   @override
   Widget build(BuildContext context) {
-    final categories = ref.watch(memberProvider).member;
+    final members = ref.watch(memberProvider);
     return ReorderableListView(
-      children: categories
+      children: members
           .map(
             (member) => ListTile(
               key: Key(member),
@@ -27,13 +28,13 @@ class _Member extends ConsumerState<Member> {
                       onPressed: () {
                         Navigator.of(context).pushNamed('/member/edit',
                             arguments: {
-                              'index': categories.indexOf(member),
+                              'index': members.indexOf(member),
                               'member': member
                             });
                       },
                       icon: const Icon(Icons.edit)),
                   ReorderableDragStartListener(
-                    index: categories.indexOf(member),
+                    index: members.indexOf(member),
                     child: const Icon(Icons.drag_handle),
                   ),
                 ],
@@ -42,7 +43,9 @@ class _Member extends ConsumerState<Member> {
           )
           .toList(),
       onReorder: (int prev, int next) {
-        ref.read(memberProvider.notifier).reorder(prev, next);
+        final list = reorderList(list: members, oldIndex: prev, newIndex: next)
+            as List<String>;
+        ref.read(memberProvider.notifier).reorder(list);
       },
     );
   }

@@ -18,8 +18,8 @@ class MemberNotifier extends StateNotifier<Members> {
     final doc = getDoc();
     final id = await getShareId();
     _subscribe = doc.collection('member').doc(id).snapshots().listen((event) {
-      final data = event.data();
-      if (data?['member']) {
+      if (event.exists) {
+        final data = event.data();
         state = data?['member'].cast<String>();
       }
     });
@@ -42,6 +42,10 @@ class MemberNotifier extends StateNotifier<Members> {
   Future<void> edit({int index = 0, String nextMember = ''}) async {
     final nextItems = [...state];
     nextItems[index] = nextMember;
+    _update(nextItems);
+  }
+
+  Future<void> reorder(Members nextItems) async {
     _update(nextItems);
   }
 

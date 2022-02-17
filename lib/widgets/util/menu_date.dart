@@ -25,7 +25,7 @@ class _MenuDate extends ConsumerState<MenuDate> {
       curretDate = ref.read(dateProvider.notifier).getYearMonth();
     });
     DateTime d = ref.read(dateProvider).date;
-    ref.read(cashProvider.notifier).fetch(year: d.year, month: d.month);
+    ref.read(cashProvider.notifier).subscribe(year: d.year, month: d.month);
   }
 
   void setNextMonth(int addMonth) {

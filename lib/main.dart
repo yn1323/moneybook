@@ -1,5 +1,4 @@
 import 'package:moneybook/imports.dart';
-import 'package:moneybook/models/cash.dart';
 import 'package:moneybook/pages/category.dart';
 import 'package:moneybook/pages/chart.dart';
 import 'package:moneybook/pages/config.dart';
@@ -11,7 +10,6 @@ import 'package:moneybook/pages/home.dart';
 import 'package:moneybook/pages/modal/filter.dart';
 import 'package:moneybook/pages/modal/member_edit.dart';
 import 'package:moneybook/pages/modal/member_new.dart';
-import 'package:moneybook/providers/cash.dart';
 import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/id.dart';
@@ -31,7 +29,6 @@ typedef CategoryEditArgs = Map<String, dynamic>;
 
 void main() async {
   await Hive.initFlutter();
-  Hive.registerAdapter<Cash>(CashAdapter());
   await Firebase.initializeApp();
   final auth = FirebaseAuth.instance;
   await auth.signInAnonymously();
@@ -49,10 +46,11 @@ class MyApp extends HookConsumerWidget {
 
   Future<void> _init(WidgetRef ref) async {
     // await Hive.deleteFromDisk();
-    await ref.read(idProvider.notifier).initialize();
-    await ref.read(currencyProvider.notifier).initialize();
-    await ref.read(categoryProvider.notifier).initialize();
-    await ref.read(memberProvider.notifier).initialize();
+    ref.read(idProvider.notifier).initialize();
+    final id = ref.watch(idProvider);
+    ref.read(currencyProvider.notifier).subscribe(id: id);
+    ref.read(categoryProvider.notifier).subscribe(id: id);
+    ref.read(memberProvider.notifier).subscribe(id: id);
   }
 
   @override

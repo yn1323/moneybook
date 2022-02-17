@@ -22,8 +22,8 @@ class CategoryNotifier extends StateNotifier<Categories> {
     final doc = getDoc();
     final id = await getShareId();
     _subscribe = doc.collection('category').doc(id).snapshots().listen((event) {
-      final data = event.data();
-      if (data?['category']) {
+      if (event.exists) {
+        final data = event.data();
         state = data?['category'].cast<String>();
       }
     });
@@ -46,6 +46,10 @@ class CategoryNotifier extends StateNotifier<Categories> {
   Future<void> edit({int index = 0, String nextCategory = ''}) async {
     final nextItems = [...state];
     nextItems[index] = nextCategory;
+    _update(nextItems);
+  }
+
+  Future<void> reorder(Categories nextItems) async {
     _update(nextItems);
   }
 

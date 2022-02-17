@@ -1,5 +1,6 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/category.dart';
+import 'package:moneybook/src/helper/list.dart';
 
 class Category extends ConsumerStatefulWidget {
   const Category({
@@ -13,7 +14,7 @@ class Category extends ConsumerStatefulWidget {
 class _Category extends ConsumerState<Category> {
   @override
   Widget build(BuildContext context) {
-    final categories = ref.watch(categoryProvider).category;
+    final categories = ref.watch(categoryProvider);
     return ReorderableListView(
       children: categories
           .map(
@@ -42,7 +43,10 @@ class _Category extends ConsumerState<Category> {
           )
           .toList(),
       onReorder: (int prev, int next) {
-        ref.read(categoryProvider.notifier).reorder(prev, next);
+        final list =
+            reorderList(list: categories, oldIndex: prev, newIndex: next)
+                as List<String>;
+        ref.read(categoryProvider.notifier).reorder(list);
       },
     );
   }

@@ -52,10 +52,10 @@ class _MemberEdit extends ConsumerState<MemberEdit> {
                     maxLength: 16,
                     focusNode: focusNode,
                     controller: controller,
-                    decoration: const InputDecoration(labelText: 'カテゴリー'),
+                    decoration: const InputDecoration(labelText: 'メンバー'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'カテゴリーを入力してください。';
+                        return 'メンバーを入力してください。';
                       }
                       return null;
                     },
