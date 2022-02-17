@@ -12,7 +12,12 @@ class CurrencyNotifier extends StateNotifier<Currency> {
   CurrencyNotifier(Currency initial) : super(initial);
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _subscribe;
 
-  void unsubscribe() => _subscribe?.cancel();
+  void unsubscribe() async {
+    state = initialVal;
+    await _subscribe?.cancel();
+    _subscribe = null;
+  }
+
   Future<void> subscribe({required String id}) async {
     if (_subscribe != null) {
       return;

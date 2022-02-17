@@ -14,7 +14,12 @@ class CategoryNotifier extends StateNotifier<Categories> {
   CategoryNotifier(Categories initial) : super(initial);
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _subscribe;
 
-  void unsubscribe() => _subscribe?.cancel();
+  void unsubscribe() {
+    state = initialVal;
+    _subscribe?.cancel();
+    _subscribe = null;
+  }
+
   Future<void> subscribe({required String id}) async {
     if (_subscribe != null) {
       return;

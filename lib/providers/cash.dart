@@ -11,7 +11,7 @@ const String hiveKey = 'data';
 
 class CashNotifier extends StateNotifier<AllCashList> {
   CashNotifier(AllCashList initial) : super({});
-  final Map<String, StreamSubscription<QuerySnapshot<Map<String, dynamic>>>>
+  Map<String, StreamSubscription<QuerySnapshot<Map<String, dynamic>>>>
       _subscribes = {};
 
   Cash getOneCash({int year = 2022, int month = 1, String id = 'id'}) {
@@ -24,8 +24,11 @@ class CashNotifier extends StateNotifier<AllCashList> {
   bool _isSubscribing({int year = 2022, int month = 1}) =>
       _subscribes.keys.contains(_dateStr(year: year, month: month));
 
-  void unsubscribeAll() =>
-      _subscribes.forEach((k, _) => _subscribes[k]?.cancel());
+  void unsubscribeAll() {
+    _subscribes.forEach((k, _) => _subscribes[k]?.cancel());
+    state = {};
+    _subscribes = {};
+  }
 
   Future<void> _subscribe(
       {int year = 2022,
