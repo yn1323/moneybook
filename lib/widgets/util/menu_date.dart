@@ -1,4 +1,5 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/providers/cash.dart';
 import 'package:moneybook/providers/date.dart';
 
 class MenuDate extends ConsumerStatefulWidget {
@@ -23,6 +24,8 @@ class _MenuDate extends ConsumerState<MenuDate> {
     setState(() {
       curretDate = ref.read(dateProvider.notifier).getYearMonth();
     });
+    DateTime d = ref.read(dateProvider).date;
+    ref.read(cashProvider.notifier).subscribe(year: d.year, month: d.month);
   }
 
   void setNextMonth(int addMonth) {

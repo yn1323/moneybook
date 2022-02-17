@@ -1,10 +1,12 @@
+import 'package:moneybook/firestore/common.dart';
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/models/cash.dart';
+import 'package:moneybook/providers/cash.dart';
 import 'package:moneybook/widgets/form/category_selector.dart';
 import 'package:moneybook/widgets/form/date_picker.dart';
 import 'package:moneybook/widgets/form/member_selecter.dart';
 import 'package:moneybook/widgets/form/memo_form.dart';
 import 'package:moneybook/widgets/form/price_form.dart';
-import 'package:moneybook/widgets/form/price_keyboard.dart';
 
 class CashNew extends ConsumerStatefulWidget {
   const CashNew({
@@ -26,64 +28,113 @@ class _CashNew extends ConsumerState<CashNew> {
   final TextEditingController priceController = TextEditingController(text: '');
   final TextEditingController memoController = TextEditingController(text: '');
   final FocusNode focusNode = FocusNode();
+  DateTime dt = DateTime.now();
+  bool isExecuted = false;
 
   @override
   void initState() {
     super.initState();
   }
 
+  void dateSetter(DateTime d) {
+    setState(() => dt = d);
+  }
+
+  void add(String? id) {
+    final cash = Cash(
+      id: id ??= getRandomId(),
+      category: categoryController.text,
+      member: memberController.text,
+      date: dt,
+      price: int.parse(priceController.text),
+      memo: memoController.text,
+    );
+    ref.read(cashProvider.notifier).create(cash);
+  }
+
+  void setInitialVal(String? id) {
+    if (id != null && !isExecuted) {
+      try {
+        Cash? cash = ref.read(cashProvider.notifier).findCashById(id);
+        if (cash == null) {
+          throw Error;
+        }
+        memberController.text = cash.member;
+        categoryController.text = cash.category;
+        priceController.text = cash.price.toString();
+        memoController.text = cash.memo;
+        dateSetter(cash.date);
+      } catch (e) {
+        print(e);
+      }
+    }
+    setState(() => isExecuted = true);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isEdit = ModalRoute.of(context)?.settings.name == '/cash/edit';
+    String? id;
+    DateTime currentDate = DateTime.now();
+
+    if (isEdit) {
+      final args =
+          ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+      id = args['id'] as String;
+      currentDate = args['date'] as DateTime;
+      setInitialVal(id);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
         backgroundColor: Colors.orange,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Form(
-                key: _key,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DatePicker(
-                      controller: dateController,
-                      initialDate: DateTime.now(),
-                    ),
-                    MemberSelecter(controller: memberController),
-                    CategorySelecter(controller: categoryController),
-                    PriceForm(controller: priceController),
-                    MemoForm(controller: memoController, focusNode: focusNode),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              FocusScope.of(context).unfocus();
-                              print(dateController.text);
-                              print(memberController.text);
-                              print(categoryController.text);
-                              print(priceController.text);
-                              print(memoController.text);
-                              if (_key.currentState!.validate()) {
-                                // add(controller.text);
-                                // Navigator.of(context).pop();
-                              }
-                            },
-                            child: const Text('新規追加'),
-                          ),
-                        ],
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Form(
+                  key: _key,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DatePicker(
+                        controller: dateController,
+                        initialDate: currentDate,
+                        dateSetter: dateSetter,
                       ),
-                    ),
-                  ],
+                      MemberSelecter(controller: memberController),
+                      CategorySelecter(controller: categoryController),
+                      PriceForm(controller: priceController),
+                      MemoForm(
+                          controller: memoController, focusNode: focusNode),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                FocusScope.of(context).unfocus();
+                                if (_key.currentState!.validate()) {
+                                  add(id);
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                              child: const Text('保存'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

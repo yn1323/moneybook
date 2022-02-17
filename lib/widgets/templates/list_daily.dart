@@ -13,7 +13,7 @@ class _ListDaily extends ConsumerState<ListDaily> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('list daily'),
+      child: Text('list weekly'),
     );
   }
 }

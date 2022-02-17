@@ -1,5 +1,10 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/providers/cash.dart';
+import 'package:moneybook/providers/category.dart';
+import 'package:moneybook/providers/currency.dart';
+import 'package:moneybook/providers/date.dart';
 import 'package:moneybook/providers/id.dart';
+import 'package:moneybook/providers/member.dart';
 
 class ConfigId extends ConsumerStatefulWidget {
   const ConfigId({
@@ -23,9 +28,20 @@ class _ConfigId extends ConsumerState<ConfigId> {
     controller.text = id;
   }
 
-  void setId({required String id}) {
-    ref.read(idProvider.notifier).setId(id: id);
-    // TODO: リセット処理
+  void setId({required String id}) async {
+    final d = ref.read(dateProvider).date;
+    // unsubscribe
+    ref.read(currencyProvider.notifier).unsubscribe();
+    ref.read(currencyProvider.notifier).subscribe(id: id);
+    ref.read(categoryProvider.notifier).unsubscribe();
+    ref.read(categoryProvider.notifier).subscribe(id: id);
+    ref.read(memberProvider.notifier).unsubscribe();
+    ref.read(memberProvider.notifier).subscribe(id: id);
+
+    ref.read(cashProvider.notifier).unsubscribeAll();
+    ref.read(cashProvider.notifier).subscribe(year: d.year, month: d.month);
+
+    await ref.read(idProvider.notifier).setId(id: id);
   }
 
   String getinitialId() => ref.read(idProvider.notifier).getInitialId();

@@ -2,10 +2,12 @@ import 'package:moneybook/imports.dart';
 import 'package:moneybook/pages/category.dart';
 import 'package:moneybook/pages/chart.dart';
 import 'package:moneybook/pages/config.dart';
+// import 'package:moneybook/pages/debug.dart';
 import 'package:moneybook/pages/modal/cash_new.dart';
 import 'package:moneybook/pages/modal/category_edit.dart';
 import 'package:moneybook/pages/modal/category_new.dart';
 import 'package:moneybook/pages/home.dart';
+import 'package:moneybook/pages/modal/filter.dart';
 import 'package:moneybook/pages/modal/member_edit.dart';
 import 'package:moneybook/pages/modal/member_new.dart';
 import 'package:moneybook/providers/category.dart';
@@ -43,11 +45,12 @@ class MyApp extends HookConsumerWidget {
   }) : super(key: key);
 
   Future<void> _init(WidgetRef ref) async {
-    await Hive.deleteFromDisk();
-    await ref.read(idProvider.notifier).initialize();
-    await ref.read(currencyProvider.notifier).initialize();
-    await ref.read(categoryProvider.notifier).initialize();
-    await ref.read(memberProvider.notifier).initialize();
+    // await Hive.deleteFromDisk();
+    ref.read(idProvider.notifier).initialize();
+    final id = ref.watch(idProvider);
+    ref.read(currencyProvider.notifier).subscribe(id: id);
+    ref.read(categoryProvider.notifier).subscribe(id: id);
+    ref.read(memberProvider.notifier).subscribe(id: id);
   }
 
   @override
@@ -80,6 +83,8 @@ class MyApp extends HookConsumerWidget {
           '/member/new': (context) => const MemberNew(),
           '/member/edit': (context) => const MemberEdit(),
           '/cash/new': (context) => const CashNew(),
+          '/cash/edit': (context, {id}) => const CashNew(),
+          '/filter': (context, {id}) => const Filter(),
         },
       ),
     );
