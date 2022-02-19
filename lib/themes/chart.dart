@@ -1,14 +1,17 @@
 import 'package:moneybook/imports.dart';
 
-final List<Color> chartTheme = [
-  Colors.red[300]!,
-  Colors.blue[300]!,
-  Colors.green[300]!,
-  Colors.amber[300]!,
-  Colors.deepPurple[300]!,
-  Colors.blueGrey[300]!,
-  Colors.lime[300]!,
-  Colors.pink[300]!,
-  Colors.brown[300]!,
-  Colors.cyan[300]!,
+const List<MaterialColor> originalChartThemes = [
+  Colors.red,
+  Colors.blue,
+  Colors.green,
+  Colors.amber,
+  Colors.deepPurple,
+  Colors.blueGrey,
+  Colors.lime,
+  Colors.pink,
+  Colors.brown,
+  Colors.cyan,
 ];
+
+List<Color> chartThemes(int number) =>
+    originalChartThemes.map((e) => e[number]!).toList();

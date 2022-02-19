@@ -17,13 +17,6 @@ List<Widget> CalendarTabBar() {
         style: TextStyle(color: Colors.grey[50]),
       ),
     ),
-    // Padding(
-    //   padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
-    //   child: Text(
-    //     '年間',
-    //     style: TextStyle(color: Colors.grey[50]),
-    //   ),
-    // )
   ];
 }
 

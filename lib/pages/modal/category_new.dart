@@ -1,3 +1,4 @@
+import 'package:moneybook/constants/index.dart';
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/category.dart';
 
@@ -22,6 +23,9 @@ class _CategoryNew extends ConsumerState<CategoryNew> {
 
   @override
   Widget build(BuildContext context) {
+    final currentCategory = ref.watch(categoryProvider);
+    final isMax = currentCategory.length >= maxCategoryNum;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -44,6 +48,12 @@ class _CategoryNew extends ConsumerState<CategoryNew> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'カテゴリーを入力してください。';
+                      }
+                      if (isMax) {
+                        return 'カテゴリー数が最大です。\n既にあるカテゴリーを削除してください。';
+                      }
+                      if (currentCategory.contains(value)) {
+                        return '同名のカテゴリーが既に存在しています。';
                       }
                       return null;
                     },

@@ -1,3 +1,4 @@
+import 'package:moneybook/constants/index.dart';
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/member.dart';
 
@@ -22,6 +23,9 @@ class _MemberNew extends ConsumerState<MemberNew> {
 
   @override
   Widget build(BuildContext context) {
+    final currentMember = ref.watch(memberProvider);
+    final isMax = currentMember.length >= maxMemberNum;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -44,6 +48,12 @@ class _MemberNew extends ConsumerState<MemberNew> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'メンバーを入力してください。';
+                      }
+                      if (isMax) {
+                        return 'メンバー数が最大です。\n既にあるメンバーを削除してください。';
+                      }
+                      if (currentMember.contains(value)) {
+                        return '同名のメンバーが既に存在しています。';
                       }
                       return null;
                     },

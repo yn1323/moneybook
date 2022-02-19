@@ -2,6 +2,7 @@ import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/fragments/monthly_cash_in_chart.dart';
 import 'package:moneybook/themes/chart.dart';
+import 'package:moneybook/widgets/card/chart_detail_card.dart';
 import 'package:moneybook/widgets/card/pie_chart_card.dart';
 import 'package:moneybook/widgets/chart/pie_chart.dart';
 import 'package:moneybook/widgets/header/total_price.dart';
@@ -28,14 +29,17 @@ class _ChartFilter extends ConsumerState<ChartFilter> {
             currency: currency,
             domain: e.domain,
             number: e.number,
-            theme: chartTheme[list.indexOf(e)]))
+            theme: originalChartThemes[list.indexOf(e)]))
         .toList();
 
-    return Column(
-      children: [
-        const TotalPrice(),
-        PieChartCard(data: data),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const TotalPrice(),
+          PieChartCard(data: data),
+          ChartDetailCard(data: data),
+        ],
+      ),
     );
   }
 }

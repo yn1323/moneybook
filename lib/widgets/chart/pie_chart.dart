@@ -9,7 +9,7 @@ final defaultColor = charts.ColorUtil.fromDartColor(Colors.amber);
 class PieChartData {
   final String domain;
   final int number;
-  final Color theme;
+  final MaterialColor theme;
   final Currency currency;
   charts.Color? color;
   String label = '';
@@ -19,10 +19,10 @@ class PieChartData {
       required this.number,
       required this.currency,
       this.theme = Colors.amber}) {
-    color = charts.ColorUtil.fromDartColor(theme);
+    color = charts.ColorUtil.fromDartColor(theme[300]!);
     final prefix = currency.isPrefix ? currency.currency : '';
     final suffix = currency.isSuffix ? currency.currency : '';
-    label = '$domain\n$prefix${addComma(number)}$suffix';
+    label = '$prefix${addComma(number)}$suffix';
   }
 }
 
@@ -56,7 +56,7 @@ class PieChart extends StatelessWidget {
         domainFn: (PieChartData d, _) => _ ?? 0,
         measureFn: (PieChartData d, _) => d.number,
         data: data,
-        labelAccessorFn: (PieChartData d, _) => d.label,
+        labelAccessorFn: (PieChartData d, _) => '${d.domain}\n${d.label}',
         colorFn: (PieChartData d, _) => d.color ?? defaultColor,
       )
     ];
