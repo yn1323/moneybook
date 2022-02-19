@@ -32,14 +32,12 @@ class _ChartFilter extends ConsumerState<ChartFilter> {
             theme: originalChartThemes[list.indexOf(e)]))
         .toList();
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const TotalPrice(),
-          PieChartCard(data: data),
-          ChartDetailCard(data: data),
-        ],
-      ),
+    return Column(
+      children: [
+        const TotalPrice(),
+        PieChartCard(data: data),
+        ChartDetailCard(data: data),
+      ],
     );
   }
 }

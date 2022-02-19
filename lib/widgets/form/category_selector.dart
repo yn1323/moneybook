@@ -22,16 +22,18 @@ class _CategorySelecter extends ConsumerState<CategorySelecter> {
         String? result = await showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: categories
-                  .map(
-                    (member) => ListTile(
-                      title: Text(member),
-                      onTap: () => Navigator.of(context).pop(member),
-                    ),
-                  )
-                  .toList(),
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: categories
+                    .map(
+                      (member) => ListTile(
+                        title: Text(member),
+                        onTap: () => Navigator.of(context).pop(member),
+                      ),
+                    )
+                    .toList(),
+              ),
             );
           },
         );

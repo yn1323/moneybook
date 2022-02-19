@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const locale = Locale("ja", "JP");
 
 final ColorScheme lightTheme = ColorScheme(
-  primary: Colors.amber[700]!, // appBarの背景、ElevatedButtonの色など
+  primary: Colors.amber[500]!, // appBarの背景、ElevatedButtonの色など
   primaryVariant: Colors.amber[900]!,
   secondary: Colors.green[600]!, // FloatingActionButtonの色など
   secondaryVariant: Colors.green[800]!,

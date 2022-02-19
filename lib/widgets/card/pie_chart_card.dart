@@ -13,6 +13,15 @@ class PieChartCard extends ConsumerStatefulWidget {
 class _PieChartCard extends ConsumerState<PieChartCard> {
   @override
   Widget build(BuildContext context) {
+    if (widget.data.every((element) => element.number == 0)) {
+      return const SizedBox(
+        height: 300,
+        child: Center(
+          child: Text('no data found'),
+        ),
+      );
+    }
+
     return Card(
       elevation: 0,
       child: SizedBox(

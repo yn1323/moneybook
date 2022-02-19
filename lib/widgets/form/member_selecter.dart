@@ -27,16 +27,18 @@ class _MemberSelecter extends ConsumerState<MemberSelecter> {
         String? result = await showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: members
-                  .map(
-                    (member) => ListTile(
-                      title: Text(member),
-                      onTap: () => Navigator.of(context).pop(member),
-                    ),
-                  )
-                  .toList(),
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: members
+                    .map(
+                      (member) => ListTile(
+                        title: Text(member),
+                        onTap: () => Navigator.of(context).pop(member),
+                      ),
+                    )
+                    .toList(),
+              ),
             );
           },
         );
