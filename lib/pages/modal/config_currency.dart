@@ -68,7 +68,9 @@ class _ConfigCurrency extends ConsumerState<ConfigCurrency> {
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: SwitchListTile(
                       value: currencyIsPrefix,
-                      title: const Text('通貨表示位置'),
+                      title: Text('通貨表示位置: ${currencyIsPrefix ? '前' : '後ろ'}'),
+                      subtitle: Text(
+                          '例  ${currencyIsPrefix ? controller.text : ''}123${currencyIsPrefix ? '' : controller.text}'),
                       onChanged: (next) {
                         setState(() => currencyIsPrefix = next);
                       },
