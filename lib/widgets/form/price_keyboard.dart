@@ -1,15 +1,13 @@
 import 'package:moneybook/imports.dart';
 
 class KeyboardLabel {
-  KeyboardLabel({
-    required this.label,
-    required this.type,
-  });
+  KeyboardLabel({required this.label, required this.type});
   final Widget label;
   final String type;
 }
 
-Widget textLabel(String str) => Text(str, style: const TextStyle(fontSize: 20));
+Widget textLabel(String str) =>
+    Text(str, style: const TextStyle(fontSize: 20, color: Colors.white));
 Widget iconlabel(IconData icons) => Icon(icons, size: 30);
 
 final List<KeyboardLabel> keyboardKeys = [
@@ -70,17 +68,30 @@ class _PriceKeyboardState extends ConsumerState<PriceKeyboard> {
           .map(
             (e) => Center(
               child: SizedBox(
-                width: 80,
+                width: double.infinity,
                 height: 80,
-                child: AbsorbPointer(
-                  absorbing: e.type.isEmpty,
-                  child: TextButton(
-                    onPressed: () {
-                      clickHandler(e.type);
-                      // print(e.label);
-                      // print(val);
-                    },
-                    child: e.label,
+                child: Card(
+                  color: Theme.of(context).colorScheme.primary,
+                  margin: EdgeInsets.zero,
+                  elevation: 0,
+                  child: InkWell(
+                    child: AbsorbPointer(
+                      absorbing: e.type.isEmpty,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                        ),
+                        onPressed: () {
+                          clickHandler(e.type);
+                          // print(e.label);
+                          // print(val);
+                        },
+                        child: e.label,
+                      ),
+                    ),
                   ),
                 ),
               ),
