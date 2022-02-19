@@ -1,11 +1,8 @@
 import 'package:moneybook/imports.dart';
-import 'package:moneybook/widgets/tab_bar/calendar_tab_bar.dart';
 import 'package:moneybook/widgets/util/menu_date.dart';
 import 'package:moneybook/widgets/util/base_bottom_navigationbar.dart';
 import 'package:moneybook/widgets/util/base_floating_actionbutton.dart';
 import 'package:moneybook/widgets/templates/list_cash.dart';
-import 'package:moneybook/widgets/templates/list_monthly.dart';
-import 'package:moneybook/widgets/templates/list_daily.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({

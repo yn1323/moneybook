@@ -1,11 +1,12 @@
 // ignore_for_file: use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:moneybook/src/helper/string.dart';
 
 class PieChartData {
   final String domain;
-  final int price;
-  PieChartData(this.domain, this.price);
+  final int number;
+  PieChartData({required this.domain, required this.number});
 }
 
 class PieChart extends StatelessWidget {
@@ -24,7 +25,7 @@ class PieChart extends StatelessWidget {
       seriesList,
       animate: animate,
       defaultRenderer: charts.ArcRendererConfig(
-        arcWidth: 140,
+        // arcWidth: 140,
         arcRendererDecorators: [charts.ArcLabelDecorator()],
       ),
     );
@@ -36,9 +37,10 @@ class PieChart extends StatelessWidget {
       charts.Series<PieChartData, int>(
         id: 'main',
         domainFn: (PieChartData d, _) => _ ?? 0,
-        measureFn: (PieChartData d, _) => d.price,
+        measureFn: (PieChartData d, _) => d.number,
         data: data,
-        labelAccessorFn: (PieChartData d, _) => '${d.domain}: ${d.price}',
+        labelAccessorFn: (PieChartData d, _) =>
+            '${d.domain} ¥${addComma(d.number)}',
       )
     ];
   }

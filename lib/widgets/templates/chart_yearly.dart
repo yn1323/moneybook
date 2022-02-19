@@ -1,22 +1,21 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/widgets/chart/pie_chart.dart';
 
-class Chart extends ConsumerStatefulWidget {
-  const Chart({
+class ChartYearly extends ConsumerStatefulWidget {
+  const ChartYearly({
     Key? key,
   }) : super(key: key);
 
   @override
-  _Chart createState() => _Chart();
+  _ChartYearly createState() => _ChartYearly();
 }
 
-class _Chart extends ConsumerState<Chart> {
+class _ChartYearly extends ConsumerState<ChartYearly> {
   @override
   Widget build(BuildContext context) {
     final data = [
-      PieChartData('aaa', 5),
+      PieChartData(domain: 'aaa', number: 5),
     ];
-
     return Padding(
       padding: const EdgeInsets.all(80.0),
       child: PieChart.render(data: data),

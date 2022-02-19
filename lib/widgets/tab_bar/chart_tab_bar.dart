@@ -4,26 +4,26 @@ import 'package:moneybook/imports.dart';
 List<Widget> CalendarTabBar() {
   return <Widget>[
     Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
       child: Text(
-        "リスト",
+        "カテゴリー別",
         style: TextStyle(color: Colors.grey[50]),
       ),
     ),
     Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
       child: Text(
-        '日別',
+        'メンバー別',
         style: TextStyle(color: Colors.grey[50]),
       ),
     ),
-    Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Text(
-        '月別',
-        style: TextStyle(color: Colors.grey[50]),
-      ),
-    )
+    // Padding(
+    //   padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
+    //   child: Text(
+    //     '年間',
+    //     style: TextStyle(color: Colors.grey[50]),
+    //   ),
+    // )
   ];
 }
 
