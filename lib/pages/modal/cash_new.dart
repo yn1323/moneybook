@@ -2,6 +2,7 @@ import 'package:moneybook/firestore/common.dart';
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/models/cash.dart';
 import 'package:moneybook/providers/cash.dart';
+import 'package:moneybook/providers/member.dart';
 import 'package:moneybook/widgets/form/category_selector.dart';
 import 'package:moneybook/widgets/form/date_picker.dart';
 import 'package:moneybook/widgets/form/member_selecter.dart';
