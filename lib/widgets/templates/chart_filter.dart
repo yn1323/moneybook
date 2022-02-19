@@ -2,21 +2,26 @@ import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/fragments/monthly_cash_in_chart.dart';
 import 'package:moneybook/themes/chart.dart';
+import 'package:moneybook/widgets/card/pie_chart_card.dart';
 import 'package:moneybook/widgets/chart/pie_chart.dart';
+import 'package:moneybook/widgets/header/total_price.dart';
 
-class ChartFilterMember extends ConsumerStatefulWidget {
-  const ChartFilterMember({
+class ChartFilter extends ConsumerStatefulWidget {
+  const ChartFilter({
     Key? key,
+    required this.type,
   }) : super(key: key);
 
+  final String type;
+
   @override
-  _ChartFilterMember createState() => _ChartFilterMember();
+  _ChartFilter createState() => _ChartFilter();
 }
 
-class _ChartFilterMember extends ConsumerState<ChartFilterMember> {
+class _ChartFilter extends ConsumerState<ChartFilter> {
   @override
   Widget build(BuildContext context) {
-    final list = ref.watch(monthlyCashInChart('member'));
+    final list = ref.watch(monthlyCashInChart(widget.type));
     final currency = ref.watch(currencyProvider);
     final data = list
         .map((e) => PieChartData(
@@ -26,9 +31,11 @@ class _ChartFilterMember extends ConsumerState<ChartFilterMember> {
             theme: chartTheme[list.indexOf(e)]))
         .toList();
 
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: PieChart.render(data: data),
+    return Column(
+      children: [
+        const TotalPrice(),
+        PieChartCard(data: data),
+      ],
     );
   }
 }

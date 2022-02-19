@@ -2,7 +2,7 @@ import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/cash.dart';
 import 'package:moneybook/providers/fragments/monthly_cash_list.dart';
 import 'package:moneybook/providers/fragments/total_price.dart';
-import 'package:moneybook/widgets/card/card_cash.dart';
+import 'package:moneybook/widgets/card/cash_card.dart';
 
 class ListCash extends ConsumerStatefulWidget {
   const ListCash({

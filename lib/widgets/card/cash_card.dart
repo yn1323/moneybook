@@ -4,9 +4,9 @@ import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/src/helper/string.dart';
 
 class CardCash extends ConsumerStatefulWidget {
-  CardCash({Key? key, required this.cash}) : super(key: key);
+  const CardCash({Key? key, required this.cash}) : super(key: key);
 
-  Cash cash;
+  final Cash cash;
 
   @override
   _CardCash createState() => _CardCash();

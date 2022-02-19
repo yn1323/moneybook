@@ -1,7 +1,6 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/widgets/tab_bar/chart_tab_bar.dart';
-import 'package:moneybook/widgets/templates/chart_filter_category.dart';
-import 'package:moneybook/widgets/templates/chart_filter_member.dart';
+import 'package:moneybook/widgets/templates/chart_filter.dart';
 import 'package:moneybook/widgets/util/menu_date.dart';
 import 'package:moneybook/widgets/util/base_bottom_navigationbar.dart';
 import 'package:moneybook/widgets/util/base_floating_actionbutton.dart';
@@ -27,8 +26,8 @@ class _ChartPage extends ConsumerState<ChartPage> {
         ),
         body: const TabBarView(
           children: <Widget>[
-            ChartFilterCategory(),
-            ChartFilterMember(),
+            ChartFilter(type: 'category'),
+            ChartFilter(type: 'member'),
           ],
         ),
         bottomNavigationBar: const BaseBottomNavigationBar(tabIndex: 1),
