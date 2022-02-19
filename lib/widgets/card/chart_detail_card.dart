@@ -15,7 +15,7 @@ class ChartDetailCard extends HookConsumerWidget {
           .map(
             (e) => Card(
               elevation: 2,
-              color: e.theme[200],
+              color: e.theme[100],
               child: SizedBox(
                 height: 50,
                 child: Row(
