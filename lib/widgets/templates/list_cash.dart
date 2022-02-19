@@ -3,6 +3,7 @@ import 'package:moneybook/providers/fragments/monthly_cash_list.dart';
 import 'package:moneybook/providers/fragments/total_price.dart';
 import 'package:moneybook/widgets/card/budget_card.dart';
 import 'package:moneybook/widgets/card/cash_card.dart';
+import 'package:moneybook/widgets/dialog/color_picker_dialog.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class ListCash extends ConsumerStatefulWidget {
@@ -24,6 +25,10 @@ class _ListCash extends ConsumerState<ListCash> {
         children: [
           const BudgetCard(),
           ...list.map((e) => CardCash(cash: e)),
+          ColorPickerDialog(
+            callback: (c) {},
+            defaultColor: Colors.red,
+          ),
         ],
       ),
     );
