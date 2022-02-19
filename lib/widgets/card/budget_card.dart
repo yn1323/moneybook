@@ -23,14 +23,12 @@ class _BudgetCard extends ConsumerState<BudgetCard> {
   }
 
   barColor(double percentage) {
-    if (percentage < 0.5) {
+    if (percentage < 0.6) {
       return Colors.green[300]!;
-    } else if (percentage < 0.75) {
-      return Colors.yellow[600]!;
     } else if (percentage < 0.9) {
-      return Colors.red[400]!;
+      return Colors.yellow[600]!;
     }
-    return Colors.red[700]!;
+    return Colors.red[400]!;
   }
 
   @override
