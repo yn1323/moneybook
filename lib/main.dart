@@ -7,9 +7,11 @@ import 'package:moneybook/pages/modal/cash_new.dart';
 import 'package:moneybook/pages/modal/category_edit.dart';
 import 'package:moneybook/pages/modal/category_new.dart';
 import 'package:moneybook/pages/home.dart';
+import 'package:moneybook/pages/modal/config_budget.dart';
 import 'package:moneybook/pages/modal/filter.dart';
 import 'package:moneybook/pages/modal/member_edit.dart';
 import 'package:moneybook/pages/modal/member_new.dart';
+import 'package:moneybook/providers/budget.dart';
 import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/id.dart';
@@ -51,6 +53,7 @@ class MyApp extends HookConsumerWidget {
     ref.read(currencyProvider.notifier).subscribe(id: id);
     ref.read(categoryProvider.notifier).subscribe(id: id);
     ref.read(memberProvider.notifier).subscribe(id: id);
+    ref.read(budgetProvider.notifier).subscribe(id: id);
   }
 
   @override
@@ -78,6 +81,7 @@ class MyApp extends HookConsumerWidget {
           // '/': (context) => const DbStub(),
           '/config/id': (context) => const ConfigId(),
           '/config/currency': (context) => const ConfigCurrency(),
+          '/config/budget': (context) => const ConfigBudget(),
           '/category/new': (context) => const CategoryNew(),
           '/category/edit': (context) => const CategoryEdit(),
           '/member/new': (context) => const MemberNew(),

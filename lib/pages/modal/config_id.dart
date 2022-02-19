@@ -1,4 +1,5 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/providers/budget.dart';
 import 'package:moneybook/providers/cash.dart';
 import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
@@ -37,6 +38,9 @@ class _ConfigId extends ConsumerState<ConfigId> {
     ref.read(categoryProvider.notifier).subscribe(id: id);
     ref.read(memberProvider.notifier).unsubscribe();
     ref.read(memberProvider.notifier).subscribe(id: id);
+    ref.read(categoryProvider.notifier).subscribe(id: id);
+    ref.read(budgetProvider.notifier).unsubscribe();
+    ref.read(budgetProvider.notifier).subscribe(id: id);
 
     ref.read(cashProvider.notifier).unsubscribeAll();
     ref.read(cashProvider.notifier).subscribe(year: d.year, month: d.month);

@@ -50,6 +50,9 @@ class _PriceKeyboardState extends ConsumerState<PriceKeyboard> {
       }
     } else {
       if (val.length < 10) {
+        if (val + type == '0') {
+          return;
+        }
         widget.controller.text = val + type;
       }
     }
