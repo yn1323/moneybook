@@ -16,21 +16,11 @@ class ListCash extends ConsumerStatefulWidget {
 class _ListCash extends ConsumerState<ListCash> {
   @override
   Widget build(BuildContext context) {
-    final price = ref.watch(totalPrice);
     final list = ref.watch(monthlyCashList);
 
     return SingleChildScrollView(
       child: Column(
-        children: [
-          SizedBox(
-            height: 50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[const Text('合計'), Text(price)],
-            ),
-          ),
-          ...list.map((e) => CardCash(cash: e))
-        ],
+        children: [...list.map((e) => CardCash(cash: e))],
       ),
     );
   }

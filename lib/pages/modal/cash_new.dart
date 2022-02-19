@@ -2,7 +2,6 @@ import 'package:moneybook/firestore/common.dart';
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/models/cash.dart';
 import 'package:moneybook/providers/cash.dart';
-import 'package:moneybook/providers/member.dart';
 import 'package:moneybook/widgets/form/category_selector.dart';
 import 'package:moneybook/widgets/form/date_picker.dart';
 import 'package:moneybook/widgets/form/member_selecter.dart';
@@ -41,6 +40,33 @@ class _CashNew extends ConsumerState<CashNew> {
     setState(() => dt = d);
   }
 
+  void deleteConfirm(String? id) {
+    if (id == null) {
+      return;
+    }
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: const Text('本当に削除しますか？'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('キャンセル'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              FocusScope.of(context).unfocus();
+              delete(id);
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void add(String? id) {
     final cash = Cash(
       id: id ??= getRandomId(),
@@ -51,6 +77,10 @@ class _CashNew extends ConsumerState<CashNew> {
       memo: memoController.text,
     );
     ref.read(cashProvider.notifier).create(cash);
+  }
+
+  void delete(String id) {
+    ref.read(cashProvider.notifier).delete(id);
   }
 
   void setInitialVal(String? id) {
@@ -116,8 +146,19 @@ class _CashNew extends ConsumerState<CashNew> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            isEdit
+                                ? ElevatedButton(
+                                    onPressed: () => deleteConfirm(id),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                    ),
+                                    child: const Text('削除'),
+                                  )
+                                : Container(),
                             ElevatedButton(
                               onPressed: () {
                                 FocusScope.of(context).unfocus();

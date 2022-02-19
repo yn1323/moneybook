@@ -22,6 +22,30 @@ class _MemberEdit extends ConsumerState<MemberEdit> {
         .edit(index: index, nextMember: nextMember);
   }
 
+  void deleteConfirm(int index) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: const Text('本当に削除しますか？'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('キャンセル'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              FocusScope.of(context).unfocus();
+              delete(index);
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void delete(int index) {
     ref.read(memberProvider.notifier).delete(index);
   }
@@ -66,11 +90,7 @@ class _MemberEdit extends ConsumerState<MemberEdit> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
-                          onPressed: () {
-                            FocusScope.of(context).unfocus();
-                            delete(index);
-                            Navigator.of(context).pop();
-                          },
+                          onPressed: () => deleteConfirm(index),
                           style: ElevatedButton.styleFrom(
                             primary: Theme.of(context).colorScheme.secondary,
                           ),
