@@ -16,7 +16,7 @@ class ChartDetailCard extends HookConsumerWidget {
       return Container();
     }
     return SizedBox(
-      height: height1 - 544,
+      height: height1 - 555,
       child: ListView(
         children: data
             .map(

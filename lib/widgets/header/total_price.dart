@@ -13,7 +13,7 @@ class TotalPrice extends ConsumerStatefulWidget {
 class _TotalPrice extends ConsumerState<TotalPrice> {
   @override
   Widget build(BuildContext context) {
-    final price = ref.watch(totalPrice);
+    final price = ref.watch(totalPrice(null)).priceStr;
 
     return SizedBox(
       height: 50,
