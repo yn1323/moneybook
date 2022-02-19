@@ -1,5 +1,7 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/fragments/monthly_cash_by_member.dart';
+import 'package:moneybook/themes/chart.dart';
 import 'package:moneybook/widgets/chart/pie_chart.dart';
 
 class ChartFilterMember extends ConsumerStatefulWidget {
@@ -15,8 +17,13 @@ class _ChartFilterMember extends ConsumerState<ChartFilterMember> {
   @override
   Widget build(BuildContext context) {
     final list = ref.watch(monthlyCashByMember);
+    final currency = ref.watch(currencyProvider);
     final data = list
-        .map((e) => PieChartData(domain: e.memberName, number: e.price))
+        .map((e) => PieChartData(
+            currency: currency,
+            domain: e.memberName,
+            number: e.price,
+            theme: chartTheme[list.indexOf(e)]))
         .toList();
 
     return Padding(

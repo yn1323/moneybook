@@ -21,12 +21,12 @@ class _HomePage extends ConsumerState<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           title: const MenuDate(),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.filter_alt),
-              onPressed: () => Navigator.of(context).pushNamed('/filter'),
-            )
-          ],
+          // actions: [
+          //   IconButton(
+          //     icon: const Icon(Icons.filter_alt),
+          //     onPressed: () => Navigator.of(context).pushNamed('/filter'),
+          //   )
+          // ],
           // bottom: TabBar(tabs: CalendarTabBar()),
         ),
         body: const ListCash(),

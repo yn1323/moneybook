@@ -29,7 +29,6 @@ class _ChartPage extends ConsumerState<ChartPage> {
           children: <Widget>[
             ChartFilterCategory(),
             ChartFilterMember(),
-            // ChartYearly(),
           ],
         ),
         bottomNavigationBar: const BaseBottomNavigationBar(tabIndex: 1),
