@@ -1,10 +1,10 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/models/cash.dart';
 import 'package:moneybook/providers/currency.dart';
+import 'package:moneybook/src/helper/date.dart';
 import 'package:moneybook/src/helper/string.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class CardCash extends ConsumerStatefulWidget {
   const CardCash({Key? key, required this.cash}) : super(key: key);
@@ -29,33 +29,65 @@ class _CardCash extends ConsumerState<CardCash> {
     );
   }
 
+  Color getTextColor(DateTime date) {
+    if (isSaturDay(date: date)) {
+      return Colors.red[700]!;
+    } else if (isSunday(date: date)) {
+      return Colors.blue[700]!;
+    }
+    return Colors.black;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-      child: Card(
-        elevation: 1.5,
-        child: InkWell(
-          onTap: editCash,
-          child: SizedBox(
-            width: double.infinity,
-            height: 60,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 50, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(dateToString(date: widget.cash.date)),
-                    Text(widget.cash.category),
-                    Text(addCurrency(widget.cash.price)),
-                  ],
+    final diffDateFromPrev = widget.cash.diffDateFromPrev;
+    final date = widget.cash.date;
+    final textColor = getTextColor(date);
+
+    return Column(
+      children: [
+        if (diffDateFromPrev)
+          SizedBox(
+            height: 40,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  dateToString(date: date, weekDay: true),
+                  style: TextStyle(
+                    color: textColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        Card(
+          elevation: 1.5,
+          child: InkWell(
+            onTap: editCash,
+            child: SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 0, 50, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (widget.cash.member.isNotEmpty)
+                        Text(widget.cash.member),
+                      Text(widget.cash.category),
+                      Text(addCurrency(widget.cash.price)),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

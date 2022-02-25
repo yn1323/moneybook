@@ -6,8 +6,13 @@ String addComma(int n) {
   return result;
 }
 
-String dateToString({required DateTime date, String format = 'M/d'}) {
+String dateToString(
+    {required DateTime date, String format = 'M/d', bool weekDay = false}) {
   var formatter = DateFormat(format);
-  var formatted = formatter.format(date);
+  String formatted = formatter.format(date);
+  final String weekday = '(${DateFormat.E('ja').format(date)})';
+  if (weekDay) {
+    formatted += weekday;
+  }
   return formatted;
 }
