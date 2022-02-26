@@ -1,6 +1,8 @@
 import 'package:moneybook/constants/index.dart';
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/member.dart';
+import 'package:moneybook/src/helper/constant/color.dart';
+import 'package:moneybook/src/helper/constant/icon.dart';
 
 class MemberNew extends ConsumerStatefulWidget {
   const MemberNew({
@@ -16,15 +18,79 @@ class _MemberNew extends ConsumerState<MemberNew> {
   final _key = GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
   final FocusNode focusNode = FocusNode();
+  IconData icon = randomIcon();
+  Color color = randomColor();
+  bool isExecuted = false;
+  int index = 0;
+
+  void setInitialVal(int i) {
+    if (isExecuted) {
+      return;
+    }
+    Member category = ref.read(memberProvider)[i];
+    controller.text = category.label;
+
+    setState(() {
+      icon = category.icon;
+      color = category.color;
+      isExecuted = true;
+      index = i;
+    });
+  }
 
   void add(String addItem) {
-    ref.read(memberProvider.notifier).add(addItem);
+    ref
+        .read(memberProvider.notifier)
+        .add(Member(label: addItem, color: color, icon: icon));
+  }
+
+  void edit({int index = 0, String label = ''}) {
+    ref.read(memberProvider.notifier).edit(
+        index: index,
+        nextMember: Member(label: label, color: color, icon: icon));
+  }
+
+  void delete(int index) {
+    ref.read(memberProvider.notifier).delete(index);
+  }
+
+  void deleteConfirm(int index) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: const Text('本当に削除しますか？'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('キャンセル'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              FocusScope.of(context).unfocus();
+              delete(index);
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final currentMember = ref.watch(memberProvider);
     final isMax = currentMember.length >= maxMemberNum;
+
+    final isEdit = ModalRoute.of(context)?.settings.name == '/member/edit';
+
+    if (isEdit) {
+      final args =
+          ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+      final i = args['index'] as int;
+      setInitialVal(i);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -51,27 +117,46 @@ class _MemberNew extends ConsumerState<MemberNew> {
                       if (isMax) {
                         return 'メンバー数が最大です。\n既にあるメンバーを削除してください。';
                       }
-                      if (currentMember.contains(value)) {
-                        return '同名のメンバーが既に存在しています。';
-                      }
                       return null;
                     },
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: isEdit
+                          ? MainAxisAlignment.spaceBetween
+                          : MainAxisAlignment.end,
                       children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            if (_key.currentState!.validate()) {
-                              FocusScope.of(context).unfocus();
-                              add(controller.text);
-                              Navigator.of(context).pop();
-                            }
-                          },
-                          child: const Text('新規追加'),
-                        ),
+                        if (isEdit)
+                          ElevatedButton(
+                            onPressed: () => deleteConfirm(index),
+                            style: ElevatedButton.styleFrom(
+                              primary: Theme.of(context).colorScheme.secondary,
+                            ),
+                            child: const Text('削除'),
+                          ),
+                        if (isEdit)
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_key.currentState!.validate()) {
+                                FocusScope.of(context).unfocus();
+                                edit(index: index, label: controller.text);
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            child: const Text('変更'),
+                          ),
+                        if (!isEdit)
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_key.currentState!.validate()) {
+                                FocusScope.of(context).unfocus();
+                                add(controller.text);
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            child: const Text('新規追加'),
+                          ),
                       ],
                     ),
                   ),

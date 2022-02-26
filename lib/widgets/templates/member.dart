@@ -19,8 +19,8 @@ class _Member extends ConsumerState<Member> {
       children: members
           .map(
             (member) => ListTile(
-              key: Key(member),
-              title: Text(member),
+              key: Key(members.indexOf(member).toString()),
+              title: Text(member.label),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -44,7 +44,7 @@ class _Member extends ConsumerState<Member> {
           .toList(),
       onReorder: (int prev, int next) {
         final list = reorderList(list: members, oldIndex: prev, newIndex: next)
-            as List<String>;
+            as Members;
         ref.read(memberProvider.notifier).reorder(list);
       },
     );

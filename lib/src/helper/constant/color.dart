@@ -1,14 +1,29 @@
 import 'package:moneybook/imports.dart';
 
-const List<MaterialColor> colorThemes = [
-  Colors.red,
-  Colors.blue,
-  Colors.green,
-  Colors.amber,
-  Colors.deepPurple,
-  Colors.blueGrey,
-  Colors.lime,
-  Colors.pink,
-  Colors.brown,
-  Colors.cyan,
-];
+const Map<String, Color> colorThemes = {
+  'red': Colors.red,
+  'blue': Colors.blue,
+  'green': Colors.green,
+  'amber': Colors.amber,
+  'deepPurple': Colors.deepPurple,
+  'blurGrey': Colors.blueGrey,
+  'lime': Colors.lime,
+  'pink': Colors.pink,
+  'brown': Colors.brown,
+  'cyan': Colors.cyan,
+};
+
+Color randomColor() {
+  List<Color> colors = colorThemes.values.toList();
+  return (colors..shuffle()).first;
+}
+
+String getColorKey(Color c) {
+  String ret = '';
+  colorThemes.forEach((key, value) {
+    if (value == c) {
+      ret = key;
+    }
+  });
+  return ret;
+}

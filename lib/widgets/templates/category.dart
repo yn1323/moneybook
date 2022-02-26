@@ -19,18 +19,17 @@ class _Category extends ConsumerState<Category> {
       children: categories
           .map(
             (category) => ListTile(
-              key: Key(category),
-              title: Text(category),
+              key: Key(categories.indexOf(category).toString()),
+              title: Text(category.label),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/category/edit',
-                            arguments: {
-                              'index': categories.indexOf(category),
-                              'category': category
-                            });
+                        Navigator.of(context)
+                            .pushNamed('/category/edit', arguments: {
+                          'index': categories.indexOf(category),
+                        });
                       },
                       icon: const Icon(Icons.edit)),
                   ReorderableDragStartListener(
@@ -45,7 +44,7 @@ class _Category extends ConsumerState<Category> {
       onReorder: (int prev, int next) {
         final list =
             reorderList(list: categories, oldIndex: prev, newIndex: next)
-                as List<String>;
+                as Categories;
         ref.read(categoryProvider.notifier).reorder(list);
       },
     );

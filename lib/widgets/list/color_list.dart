@@ -17,7 +17,8 @@ class ColorList extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: GridView.count(
           crossAxisCount: 5,
-          children: colorThemes
+          children: colorThemes.values
+              .toList()
               .map(
                 (color) => Padding(
                   padding: const EdgeInsets.all(8.0),

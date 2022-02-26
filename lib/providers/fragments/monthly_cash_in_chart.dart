@@ -12,6 +12,8 @@ class ChartDataum {
   ChartDataum({required this.domain, required this.number});
 }
 
+typedef ConfigData = Categories;
+
 typedef ChartDatumList = List<ChartDataum>;
 
 final monthlyCashInChart = Provider.family<ChartDatumList, String>((ref, type) {
@@ -20,8 +22,8 @@ final monthlyCashInChart = Provider.family<ChartDatumList, String>((ref, type) {
   }
   ref.watch(cashProvider);
   final date = ref.watch(dateProvider).date;
-  final configData =
-      ref.watch(type == 'member' ? memberProvider : categoryProvider);
+  final members = ref.watch(memberProvider);
+  final categories = ref.watch(memberProvider);
 
   final ChartDatumList chartDatumList = [];
   Map<String, int> tempItemsMap = {};
@@ -45,9 +47,17 @@ final monthlyCashInChart = Provider.family<ChartDatumList, String>((ref, type) {
     chartDatumList.add(ChartDataum(domain: key, number: sortedMap[key] as int));
   }
 
-  for (final configDataum in configData) {
-    if (!keys.contains(configDataum)) {
-      chartDatumList.add(ChartDataum(domain: configDataum, number: 0));
+  if (type != 'member') {
+    for (final configDataum in categories) {
+      if (!keys.contains(configDataum.label)) {
+        chartDatumList.add(ChartDataum(domain: configDataum.label, number: 0));
+      }
+    }
+  } else {
+    for (final configDataum in members) {
+      if (!keys.contains(configDataum.label)) {
+        chartDatumList.add(ChartDataum(domain: configDataum.label, number: 0));
+      }
     }
   }
 

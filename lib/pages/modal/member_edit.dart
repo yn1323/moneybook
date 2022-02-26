@@ -19,7 +19,7 @@ class _MemberEdit extends ConsumerState<MemberEdit> {
   void edit({int index = 0, String nextMember = ''}) {
     ref
         .read(memberProvider.notifier)
-        .edit(index: index, nextMember: nextMember);
+        .edit(index: index, nextMember: Member(label: nextMember));
   }
 
   void deleteConfirm(int index) {
@@ -55,8 +55,8 @@ class _MemberEdit extends ConsumerState<MemberEdit> {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     final index = args['index'] as int;
-    final member = args['member'] as String;
-    controller.text = member;
+    final member = args['member'] as Member;
+    controller.text = member.label;
 
     return Scaffold(
       appBar: AppBar(

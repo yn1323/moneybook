@@ -33,8 +33,8 @@ class _MemberSelecter extends ConsumerState<MemberSelecter> {
                 children: members
                     .map(
                       (member) => ListTile(
-                        title: Text(member),
-                        onTap: () => Navigator.of(context).pop(member),
+                        title: Text(member.label),
+                        onTap: () => Navigator.of(context).pop(member.label),
                       ),
                     )
                     .toList(),

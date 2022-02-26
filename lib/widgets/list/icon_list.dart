@@ -17,7 +17,8 @@ class IconList extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: GridView.count(
           crossAxisCount: 5,
-          children: categoryIcons
+          children: categoryIcons.values
+              .toList()
               .map((e) => IconButton(
                     onPressed: () => iconSetter(e),
                     icon: Icon(e, size: 48, color: Colors.grey),

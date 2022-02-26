@@ -27,9 +27,9 @@ class _CategorySelecter extends ConsumerState<CategorySelecter> {
                 mainAxisSize: MainAxisSize.min,
                 children: categories
                     .map(
-                      (member) => ListTile(
-                        title: Text(member),
-                        onTap: () => Navigator.of(context).pop(member),
+                      (category) => ListTile(
+                        title: Text(category.label),
+                        onTap: () => Navigator.of(context).pop(category.label),
                       ),
                     )
                     .toList(),
