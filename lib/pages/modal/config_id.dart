@@ -55,7 +55,6 @@ class _ConfigId extends ConsumerState<ConfigId> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.orange,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

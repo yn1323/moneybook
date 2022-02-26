@@ -21,7 +21,6 @@ const List<Color> colors = [
   Colors.brown,
   Colors.grey,
   Colors.blueGrey,
-  Colors.black,
 ];
 
 class ColorPickerDialog extends ConsumerStatefulWidget {

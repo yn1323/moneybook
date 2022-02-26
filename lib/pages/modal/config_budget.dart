@@ -39,7 +39,6 @@ class _ConfigBudget extends ConsumerState<ConfigBudget> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.orange,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),

@@ -61,7 +61,6 @@ class _MemberEdit extends ConsumerState<MemberEdit> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.orange,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

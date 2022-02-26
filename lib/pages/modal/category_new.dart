@@ -1,6 +1,7 @@
 import 'package:moneybook/constants/index.dart';
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/category.dart';
+import 'package:moneybook/widgets/form/icon_selector.dart';
 
 class CategoryNew extends ConsumerStatefulWidget {
   const CategoryNew({
@@ -16,9 +17,23 @@ class _CategoryNew extends ConsumerState<CategoryNew> {
   final _key = GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
   final FocusNode focusNode = FocusNode();
+  IconData icon = Icons.ac_unit;
+  Color color = Colors.blue;
 
   void add(String addItem) {
     ref.read(categoryProvider.notifier).add(addItem);
+  }
+
+  void iconSetter(IconData i) {
+    setState(() {
+      icon = i;
+    });
+  }
+
+  void colorSetter(Color c) {
+    setState(() {
+      color = c;
+    });
   }
 
   @override
@@ -29,10 +44,9 @@ class _CategoryNew extends ConsumerState<CategoryNew> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.orange,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           children: [
             Form(
@@ -40,6 +54,12 @@ class _CategoryNew extends ConsumerState<CategoryNew> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  IconSelector(
+                    icon: icon,
+                    color: color,
+                    iconSetter: iconSetter,
+                    colorSetter: colorSetter,
+                  ),
                   TextFormField(
                     maxLength: 16,
                     focusNode: focusNode,

@@ -76,9 +76,9 @@ class _CardCash extends ConsumerState<CardCash> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Text(widget.cash.category),
                       if (widget.cash.member.isNotEmpty)
                         Text(widget.cash.member),
-                      Text(widget.cash.category),
                       Text(addCurrency(widget.cash.price)),
                     ],
                   ),

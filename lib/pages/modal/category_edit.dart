@@ -61,7 +61,6 @@ class _CategoryEdit extends ConsumerState<CategoryEdit> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.orange,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

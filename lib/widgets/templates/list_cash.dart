@@ -26,7 +26,9 @@ class _ListCash extends ConsumerState<ListCash> {
           const BudgetCard(),
           ...list.map((e) => CardCash(cash: e)),
           ColorPickerDialog(
-            callback: (c) {},
+            callback: (c) {
+              print(c);
+            },
             defaultColor: Colors.red,
           ),
         ],

@@ -38,7 +38,6 @@ class _ConfigCurrency extends ConsumerState<ConfigCurrency> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.orange,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),

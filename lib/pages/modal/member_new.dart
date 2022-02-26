@@ -29,7 +29,6 @@ class _MemberNew extends ConsumerState<MemberNew> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.orange,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
