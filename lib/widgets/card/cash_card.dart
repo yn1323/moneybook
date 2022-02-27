@@ -1,10 +1,12 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/models/cash.dart';
+import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/src/helper/date.dart';
 import 'package:moneybook/src/helper/string.dart';
 
 import 'package:flutter/material.dart';
+import 'package:moneybook/widgets/shape/circle_icon.dart';
 
 class CardCash extends ConsumerStatefulWidget {
   const CardCash({Key? key, required this.cash}) : super(key: key);
@@ -43,6 +45,8 @@ class _CardCash extends ConsumerState<CardCash> {
     final diffDateFromPrev = widget.cash.diffDateFromPrev;
     final date = widget.cash.date;
     final textColor = getTextColor(date);
+    final category =
+        ref.read(categoryProvider.notifier).findByLabel(widget.cash.category);
 
     return Column(
       children: [
@@ -72,11 +76,22 @@ class _CardCash extends ConsumerState<CardCash> {
               height: 55,
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 0, 50, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 40, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(widget.cash.category),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                            child: CircleIcon(
+                                fillColor: category.color,
+                                icon: category.icon,
+                                size: 20),
+                          ),
+                          Text(widget.cash.category),
+                        ],
+                      ),
                       if (widget.cash.member.isNotEmpty)
                         Text(widget.cash.member),
                       Text(addCurrency(widget.cash.price)),

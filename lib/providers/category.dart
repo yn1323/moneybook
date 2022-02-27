@@ -99,6 +99,12 @@ class CategoryNotifier extends StateNotifier<Categories> {
     nextItems.removeAt(index);
     _update(nextItems);
   }
+
+  Category findByLabel(String label) {
+    return state.firstWhere((element) => element.label == label) ??
+        Category(
+            label: label, color: Colors.grey, icon: Icons.help_center_outlined);
+  }
 }
 
 final categoryProvider = StateNotifierProvider<CategoryNotifier, Categories>(
