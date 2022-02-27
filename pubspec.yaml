@@ -108,7 +108,7 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_native_splash:
   image: "assets/img/splash_icon.png"
-  color: "#ffa000"
+  color: "#FAFAFA"
 flutter_icons:
   android: true
   ios: true

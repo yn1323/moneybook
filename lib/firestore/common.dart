@@ -13,5 +13,5 @@ Future<String> getShareId() async {
 }
 
 DocumentReference<Map<String, dynamic>> getDoc() {
-  return FirebaseFirestore.instance.collection('app').doc('cashbook');
+  return FirebaseFirestore.instance.collection('app').doc('moneymanage');
 }
