@@ -11,17 +11,17 @@ Widget textLabel(String str) =>
 Widget iconlabel(IconData icons) => Icon(icons, size: 30);
 
 final List<KeyboardLabel> keyboardKeys = [
-  KeyboardLabel(type: '7', label: textLabel('7')),
-  KeyboardLabel(type: '8', label: textLabel('8')),
-  KeyboardLabel(type: '9', label: textLabel('9')),
+  KeyboardLabel(type: '1', label: textLabel('1')),
+  KeyboardLabel(type: '2', label: textLabel('2')),
+  KeyboardLabel(type: '3', label: textLabel('3')),
   KeyboardLabel(type: 'del', label: iconlabel(Icons.backspace)),
   KeyboardLabel(type: '4', label: textLabel('4')),
   KeyboardLabel(type: '5', label: textLabel('5')),
   KeyboardLabel(type: '6', label: textLabel('6')),
   KeyboardLabel(type: '', label: textLabel('')),
-  KeyboardLabel(type: '1', label: textLabel('1')),
-  KeyboardLabel(type: '2', label: textLabel('2')),
-  KeyboardLabel(type: '3', label: textLabel('3')),
+  KeyboardLabel(type: '7', label: textLabel('7')),
+  KeyboardLabel(type: '8', label: textLabel('8')),
+  KeyboardLabel(type: '9', label: textLabel('9')),
   KeyboardLabel(type: '', label: textLabel('')),
   KeyboardLabel(type: '', label: textLabel('')),
   KeyboardLabel(type: '0', label: textLabel('0')),

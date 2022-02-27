@@ -76,7 +76,7 @@ class MyApp extends HookConsumerWidget {
           theme: ThemeData.from(colorScheme: lightTheme),
           initialRoute: '/',
           routes: {
-            '/': (context) => const CategoryPage(),
+            '/': (context) => const HomePage(),
             '/chart': (context) => const ChartPage(),
             '/category': (context) => const CategoryPage(),
             '/config': (context) => const ConfigPage(),

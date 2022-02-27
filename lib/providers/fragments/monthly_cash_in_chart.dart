@@ -23,7 +23,7 @@ final monthlyCashInChart = Provider.family<ChartDatumList, String>((ref, type) {
   ref.watch(cashProvider);
   final date = ref.watch(dateProvider).date;
   final members = ref.watch(memberProvider);
-  final categories = ref.watch(memberProvider);
+  final categories = ref.watch(categoryProvider);
 
   final ChartDatumList chartDatumList = [];
   Map<String, int> tempItemsMap = {};
@@ -34,7 +34,7 @@ final monthlyCashInChart = Provider.family<ChartDatumList, String>((ref, type) {
 
   for (final cash in cashList) {
     final toFetch = type == 'member' ? cash.member : cash.category;
-    if (tempItemsMap.keys.contains(cash.member)) {
+    if (tempItemsMap.keys.contains(toFetch)) {
       tempItemsMap[toFetch] = (tempItemsMap[toFetch] as int) + cash.price;
     } else {
       tempItemsMap[toFetch] = cash.price;

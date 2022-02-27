@@ -9,13 +9,13 @@ class IconSelector extends ConsumerStatefulWidget {
     Key? key,
     required this.icon,
     required this.color,
-    required this.iconSetter,
+    this.iconSetter,
     required this.colorSetter,
   }) : super(key: key);
 
   IconData icon;
   Color color;
-  Function(IconData) iconSetter;
+  Function(IconData)? iconSetter;
   Function(Color) colorSetter;
 
   @override
@@ -24,8 +24,10 @@ class IconSelector extends ConsumerStatefulWidget {
 
 class _IconSelector extends ConsumerState<IconSelector> {
   void _iconSetter(IconData i) {
-    widget.iconSetter(i);
-    Navigator.of(context).pop();
+    if (widget.iconSetter != null) {
+      widget.iconSetter!(i);
+      Navigator.of(context).pop();
+    }
   }
 
   void _colorSetter(Color c) {
@@ -38,6 +40,7 @@ class _IconSelector extends ConsumerState<IconSelector> {
     Color fillColor = widget.color;
     double size = 65;
     IconData icon = widget.icon;
+    bool showIconButton = widget.iconSetter != null;
 
     return Stack(
       children: <Widget>[
@@ -57,6 +60,25 @@ class _IconSelector extends ConsumerState<IconSelector> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
+                if (showIconButton)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).colorScheme.surface,
+                    ),
+                    onPressed: () async {
+                      FocusScope.of(context).unfocus();
+                      await showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return IconList(iconSetter: _iconSetter);
+                        },
+                      );
+                    },
+                    child: const Icon(
+                      Icons.home,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).colorScheme.surface,
@@ -72,24 +94,6 @@ class _IconSelector extends ConsumerState<IconSelector> {
                   },
                   child: const Icon(
                     Icons.palette,
-                    color: Colors.grey,
-                  ),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).colorScheme.surface,
-                  ),
-                  onPressed: () async {
-                    FocusScope.of(context).unfocus();
-                    await showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return IconList(iconSetter: _iconSetter);
-                      },
-                    );
-                  },
-                  child: const Icon(
-                    Icons.home,
                     color: Colors.grey,
                   ),
                 )

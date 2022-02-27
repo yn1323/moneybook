@@ -1,4 +1,5 @@
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/pages/chart.dart';
 import 'package:moneybook/providers/budget.dart';
 import 'package:moneybook/providers/cash.dart';
 import 'package:moneybook/providers/currency.dart';
@@ -47,38 +48,47 @@ class _BudgetCard extends ConsumerState<BudgetCard> {
     final percentage = getPercent(budget: budget.price, total: total.priceNum);
 
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("今月の支出 : ${total.priceStr}"),
-                  Row(children: [
-                    const Text("残り: "),
-                    Text(
-                      remainingStr,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color:
-                            remaining < 0 ? Colors.red[700] : Colors.blue[700],
+      child: InkWell(
+        onTap: () {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const ChartPage()),
+              (_) => false);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("今月の支出 : ${total.priceStr}"),
+                    Row(children: [
+                      const Text("残り: "),
+                      Text(
+                        remainingStr,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: remaining < 0
+                              ? Colors.red[700]
+                              : Colors.blue[700],
+                        ),
                       ),
-                    ),
-                  ]),
-                ],
+                    ]),
+                  ],
+                ),
               ),
-            ),
-            LinearPercentIndicator(
-              animation: true,
-              lineHeight: 20,
-              animationDuration: 200,
-              percent: percentage,
-              progressColor: barColor(percentage),
-            ),
-          ],
+              LinearPercentIndicator(
+                animation: true,
+                lineHeight: 20,
+                animationDuration: 200,
+                percent: percentage,
+                progressColor: barColor(percentage),
+              ),
+            ],
+          ),
         ),
       ),
     );

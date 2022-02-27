@@ -20,6 +20,7 @@ const Map<String, IconData> categoryIcons = {
   'book': Icons.book,
   'sports_football': Icons.sports_football,
   'sports_esports': Icons.sports_esports,
+  'person': Icons.person,
   'people': Icons.people,
   'payments': Icons.payments,
   'maps_home_work': Icons.maps_home_work,

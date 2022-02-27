@@ -6,7 +6,6 @@ import 'package:moneybook/src/helper/date.dart';
 import 'package:moneybook/src/helper/string.dart';
 
 import 'package:flutter/material.dart';
-import 'package:moneybook/widgets/shape/circle_icon.dart';
 import 'package:moneybook/widgets/text/text_with_icon.dart';
 
 class CardCash extends ConsumerStatefulWidget {
@@ -34,9 +33,9 @@ class _CardCash extends ConsumerState<CardCash> {
 
   Color getTextColor(DateTime date) {
     if (isSaturDay(date: date)) {
-      return Colors.red[700]!;
-    } else if (isSunday(date: date)) {
       return Colors.blue[700]!;
+    } else if (isSunday(date: date)) {
+      return Colors.red[700]!;
     }
     return Colors.black;
   }
@@ -50,6 +49,7 @@ class _CardCash extends ConsumerState<CardCash> {
         ref.read(categoryProvider.notifier).findByLabel(widget.cash.category);
     final fillColor = category.color;
     final icon = category.icon;
+    final hasMember = widget.cash.member.isNotEmpty;
 
     return Column(
       children: [
@@ -79,18 +79,29 @@ class _CardCash extends ConsumerState<CardCash> {
               height: 55,
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 40, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 30, 0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextWithIcon(
-                        fillColor: fillColor,
-                        icon: icon,
-                        text: widget.cash.category,
+                      Expanded(
+                        flex: 4,
+                        child: TextWithIcon(
+                          fillColor: fillColor,
+                          icon: icon,
+                          text: widget.cash.category,
+                        ),
                       ),
-                      if (widget.cash.member.isNotEmpty)
-                        Text(widget.cash.member),
-                      Text(addCurrency(widget.cash.price)),
+                      if (hasMember)
+                        Expanded(
+                          flex: 2,
+                          child: Text(widget.cash.member),
+                        ),
+                      Expanded(
+                        flex: 2,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(addCurrency(widget.cash.price)),
+                        ),
+                      ),
                     ],
                   ),
                 ),

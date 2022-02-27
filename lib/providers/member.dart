@@ -46,7 +46,7 @@ class MemberNotifier extends StateNotifier<Members> {
               : randomColor();
           final defaultIcon = data?['icon']?[i] != null
               ? categoryIcons[data?['icon'][i]]
-              : randomIcon();
+              : Icons.person;
           categoriesList.add(
             Member(
               label: data?['member'][i],

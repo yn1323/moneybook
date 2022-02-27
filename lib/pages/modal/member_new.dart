@@ -3,6 +3,7 @@ import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/member.dart';
 import 'package:moneybook/src/helper/constant/color.dart';
 import 'package:moneybook/src/helper/constant/icon.dart';
+import 'package:moneybook/widgets/form/icon_selector.dart';
 
 class MemberNew extends ConsumerStatefulWidget {
   const MemberNew({
@@ -18,7 +19,7 @@ class _MemberNew extends ConsumerState<MemberNew> {
   final _key = GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
   final FocusNode focusNode = FocusNode();
-  IconData icon = randomIcon();
+  IconData icon = Icons.person;
   Color color = randomColor();
   bool isExecuted = false;
   int index = 0;
@@ -35,6 +36,18 @@ class _MemberNew extends ConsumerState<MemberNew> {
       color = category.color;
       isExecuted = true;
       index = i;
+    });
+  }
+
+  void iconSetter(IconData i) {
+    setState(() {
+      icon = i;
+    });
+  }
+
+  void colorSetter(Color c) {
+    setState(() {
+      color = c;
     });
   }
 
@@ -105,6 +118,11 @@ class _MemberNew extends ConsumerState<MemberNew> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  IconSelector(
+                    icon: icon,
+                    color: color,
+                    colorSetter: colorSetter,
+                  ),
                   TextFormField(
                     maxLength: 16,
                     focusNode: focusNode,

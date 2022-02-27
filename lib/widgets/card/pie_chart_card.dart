@@ -17,7 +17,7 @@ class _PieChartCard extends ConsumerState<PieChartCard> {
       return const SizedBox(
         height: 300,
         child: Center(
-          child: Text('no data found'),
+          child: Text('No Data'),
         ),
       );
     }

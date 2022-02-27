@@ -53,12 +53,6 @@ class _MemberSelecter extends ConsumerState<MemberSelecter> {
             labelText: '支払',
             prefixIcon: Icon(Icons.person),
           ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return '支払い者を入力してください。';
-            }
-            return null;
-          },
         ),
       ),
     );

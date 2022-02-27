@@ -21,23 +21,8 @@ class _HomePage extends ConsumerState<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           title: const MenuDate(),
-          // actions: [
-          //   IconButton(
-          //     icon: const Icon(Icons.filter_alt),
-          //     onPressed: () => Navigator.of(context).pushNamed('/filter'),
-          //   )
-          // ],
-          // bottom: TabBar(tabs: CalendarTabBar()),
         ),
         body: const ListCash(),
-
-        // const TabBarView(
-        //   children: <Widget>[
-        //     ListCash(),
-        //     ListDaily(),
-        //     ListMonthly(),
-        //   ],
-        // ),
         bottomNavigationBar: const BaseBottomNavigationBar(tabIndex: 0),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: const BaseFloatingActionButton(),

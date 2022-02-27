@@ -20,6 +20,11 @@ class _Category extends ConsumerState<Category> {
       children: categories
           .map(
             (category) => ListTile(
+              onTap: () {
+                Navigator.of(context).pushNamed('/category/edit', arguments: {
+                  'index': categories.indexOf(category),
+                });
+              },
               key: Key(categories.indexOf(category).toString()),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -37,14 +42,6 @@ class _Category extends ConsumerState<Category> {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed('/category/edit', arguments: {
-                          'index': categories.indexOf(category),
-                        });
-                      },
-                      icon: const Icon(Icons.edit)),
                   ReorderableDragStartListener(
                     index: categories.indexOf(category),
                     child: const Icon(Icons.drag_handle),
