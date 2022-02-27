@@ -4,12 +4,12 @@ import 'package:moneybook/pages/chart.dart';
 import 'package:moneybook/pages/config.dart';
 // import 'package:moneybook/pages/debug.dart';
 import 'package:moneybook/pages/modal/cash_new.dart';
-import 'package:moneybook/pages/modal/category_edit.dart';
 import 'package:moneybook/pages/modal/category_new.dart';
 import 'package:moneybook/pages/home.dart';
+import 'package:moneybook/pages/modal/config_budget.dart';
 import 'package:moneybook/pages/modal/filter.dart';
-import 'package:moneybook/pages/modal/member_edit.dart';
 import 'package:moneybook/pages/modal/member_new.dart';
+import 'package:moneybook/providers/budget.dart';
 import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/id.dart';
@@ -51,41 +51,48 @@ class MyApp extends HookConsumerWidget {
     ref.read(currencyProvider.notifier).subscribe(id: id);
     ref.read(categoryProvider.notifier).subscribe(id: id);
     ref.read(memberProvider.notifier).subscribe(id: id);
+    ref.read(budgetProvider.notifier).subscribe(id: id);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder(
-      future: _init(ref),
-      builder: (BuildContext context, AsyncSnapshot<void> snapshot) =>
-          MaterialApp(
-        locale: locale,
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          locale,
-        ],
-        theme: ThemeData.from(colorScheme: lightTheme),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const HomePage(),
-          '/chart': (context) => const ChartPage(),
-          '/category': (context) => const CategoryPage(),
-          '/config': (context) => const ConfigPage(),
-          // '/': (context) => const DbStub(),
-          '/config/id': (context) => const ConfigId(),
-          '/config/currency': (context) => const ConfigCurrency(),
-          '/category/new': (context) => const CategoryNew(),
-          '/category/edit': (context) => const CategoryEdit(),
-          '/member/new': (context) => const MemberNew(),
-          '/member/edit': (context) => const MemberEdit(),
-          '/cash/new': (context) => const CashNew(),
-          '/cash/edit': (context, {id}) => const CashNew(),
-          '/filter': (context, {id}) => const Filter(),
-        },
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: FutureBuilder(
+        future: _init(ref),
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) =>
+            MaterialApp(
+          locale: locale,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            locale,
+          ],
+          theme: ThemeData.from(colorScheme: lightTheme),
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const HomePage(),
+            '/chart': (context) => const ChartPage(),
+            '/category': (context) => const CategoryPage(),
+            '/config': (context) => const ConfigPage(),
+            // '/': (context) => const DbStub(),
+            '/config/id': (context) => const ConfigId(),
+            '/config/currency': (context) => const ConfigCurrency(),
+            '/config/budget': (context) => const ConfigBudget(),
+            '/category/new': (context) => const CategoryNew(),
+            '/category/edit': (context) => const CategoryNew(),
+            '/member/new': (context) => const MemberNew(),
+            '/member/edit': (context) => const MemberNew(),
+            '/cash/new': (context) => const CashNew(),
+            '/cash/edit': (context, {id}) => const CashNew(),
+            '/filter': (context, {id}) => const Filter(),
+          },
+        ),
       ),
     );
   }

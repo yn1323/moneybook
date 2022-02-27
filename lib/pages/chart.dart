@@ -1,9 +1,9 @@
 import 'package:moneybook/imports.dart';
-import 'package:moneybook/widgets/tab_bar/calendar_tab_bar.dart';
+import 'package:moneybook/widgets/tab_bar/chart_tab_bar.dart';
+import 'package:moneybook/widgets/templates/chart_filter.dart';
 import 'package:moneybook/widgets/util/menu_date.dart';
 import 'package:moneybook/widgets/util/base_bottom_navigationbar.dart';
 import 'package:moneybook/widgets/util/base_floating_actionbutton.dart';
-import 'package:moneybook/widgets/templates/chart.dart';
 
 class ChartPage extends ConsumerStatefulWidget {
   const ChartPage({
@@ -18,7 +18,7 @@ class _ChartPage extends ConsumerState<ChartPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: const MenuDate(),
@@ -26,9 +26,8 @@ class _ChartPage extends ConsumerState<ChartPage> {
         ),
         body: const TabBarView(
           children: <Widget>[
-            Chart(),
-            Chart(),
-            Chart(),
+            ChartFilter(type: 'category'),
+            ChartFilter(type: 'member'),
           ],
         ),
         bottomNavigationBar: const BaseBottomNavigationBar(tabIndex: 1),

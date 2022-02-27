@@ -7,7 +7,6 @@ import 'package:moneybook/models/cash.dart';
 
 typedef CashList = List<Cash>;
 typedef AllCashList = Map<String, CashList>;
-const String hiveKey = 'data';
 
 class CashNotifier extends StateNotifier<AllCashList> {
   CashNotifier(AllCashList initial) : super({});
@@ -20,7 +19,8 @@ class CashNotifier extends StateNotifier<AllCashList> {
     return list.firstWhere((element) => element.id == id);
   }
 
-  String _dateStr({int year = 2022, int month = 1}) => '$year-$month';
+  String _dateStr({int year = 2022, int month = 1, int? day}) =>
+      '$year-$month${day != null ? '-$day' : ''}';
   bool _isSubscribing({int year = 2022, int month = 1}) =>
       _subscribes.keys.contains(_dateStr(year: year, month: month));
 
@@ -67,17 +67,26 @@ class CashNotifier extends StateNotifier<AllCashList> {
   void Function(QuerySnapshot<Map<String, dynamic>>) setCash(
       {int year = 2022, int month = 1}) {
     final dateStr = _dateStr(year: year, month: month);
+    String prevDateStr = '';
 
     return (data) {
       CashList list = data.docs.map((e) {
         final d = e.data();
+        final DateTime oneDateTime = d['date'].toDate();
+        final String oneDateStr = _dateStr(
+            year: oneDateTime.year,
+            month: oneDateTime.month,
+            day: oneDateTime.day);
+        final bool diffDateFromPrev = prevDateStr != oneDateStr;
+        prevDateStr = oneDateStr;
         return Cash(
           id: e.id,
           category: d['category'],
           member: d['member'],
-          date: d['date'].toDate(),
+          date: oneDateTime,
           price: d['price'],
           memo: d['memo'],
+          diffDateFromPrev: diffDateFromPrev,
         );
       }).toList();
       final AllCashList newState = Map.from(state);

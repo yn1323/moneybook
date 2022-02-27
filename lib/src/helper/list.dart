@@ -1,3 +1,5 @@
+import 'package:moneybook/models/cash.dart';
+
 List<dynamic> reorderList(
     {required List<dynamic> list,
     required int oldIndex,
@@ -6,4 +8,9 @@ List<dynamic> reorderList(
   final removeItem = list.removeAt(oldIndex);
   list.insert(insertIndex, removeItem);
   return list;
+}
+
+int foldCashTotal(List<Cash> list) {
+  return list.fold(
+      0, (previousValue, element) => previousValue + element.price);
 }

@@ -1,29 +1,27 @@
 import 'package:moneybook/imports.dart';
 
 class KeyboardLabel {
-  KeyboardLabel({
-    required this.label,
-    required this.type,
-  });
+  KeyboardLabel({required this.label, required this.type});
   final Widget label;
   final String type;
 }
 
-Widget textLabel(String str) => Text(str, style: const TextStyle(fontSize: 20));
+Widget textLabel(String str) =>
+    Text(str, style: const TextStyle(fontSize: 20, color: Colors.white));
 Widget iconlabel(IconData icons) => Icon(icons, size: 30);
 
 final List<KeyboardLabel> keyboardKeys = [
-  KeyboardLabel(type: '7', label: textLabel('7')),
-  KeyboardLabel(type: '8', label: textLabel('8')),
-  KeyboardLabel(type: '9', label: textLabel('9')),
+  KeyboardLabel(type: '1', label: textLabel('1')),
+  KeyboardLabel(type: '2', label: textLabel('2')),
+  KeyboardLabel(type: '3', label: textLabel('3')),
   KeyboardLabel(type: 'del', label: iconlabel(Icons.backspace)),
   KeyboardLabel(type: '4', label: textLabel('4')),
   KeyboardLabel(type: '5', label: textLabel('5')),
   KeyboardLabel(type: '6', label: textLabel('6')),
   KeyboardLabel(type: '', label: textLabel('')),
-  KeyboardLabel(type: '1', label: textLabel('1')),
-  KeyboardLabel(type: '2', label: textLabel('2')),
-  KeyboardLabel(type: '3', label: textLabel('3')),
+  KeyboardLabel(type: '7', label: textLabel('7')),
+  KeyboardLabel(type: '8', label: textLabel('8')),
+  KeyboardLabel(type: '9', label: textLabel('9')),
   KeyboardLabel(type: '', label: textLabel('')),
   KeyboardLabel(type: '', label: textLabel('')),
   KeyboardLabel(type: '0', label: textLabel('0')),
@@ -52,6 +50,9 @@ class _PriceKeyboardState extends ConsumerState<PriceKeyboard> {
       }
     } else {
       if (val.length < 10) {
+        if (val + type == '0') {
+          return;
+        }
         widget.controller.text = val + type;
       }
     }
@@ -70,17 +71,30 @@ class _PriceKeyboardState extends ConsumerState<PriceKeyboard> {
           .map(
             (e) => Center(
               child: SizedBox(
-                width: 80,
+                width: double.infinity,
                 height: 80,
-                child: AbsorbPointer(
-                  absorbing: e.type.isEmpty,
-                  child: TextButton(
-                    onPressed: () {
-                      clickHandler(e.type);
-                      // print(e.label);
-                      // print(val);
-                    },
-                    child: e.label,
+                child: Card(
+                  color: Theme.of(context).colorScheme.primary,
+                  margin: EdgeInsets.zero,
+                  elevation: 0,
+                  child: InkWell(
+                    child: AbsorbPointer(
+                      absorbing: e.type.isEmpty,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                        ),
+                        onPressed: () {
+                          clickHandler(e.type);
+                          // print(e.label);
+                          // print(val);
+                        },
+                        child: e.label,
+                      ),
+                    ),
                   ),
                 ),
               ),

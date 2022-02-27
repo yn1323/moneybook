@@ -32,7 +32,6 @@ class _Filter extends ConsumerState<Filter> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.orange,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

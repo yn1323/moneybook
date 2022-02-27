@@ -40,6 +40,33 @@ class _CashNew extends ConsumerState<CashNew> {
     setState(() => dt = d);
   }
 
+  void deleteConfirm(String? id) {
+    if (id == null) {
+      return;
+    }
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: const Text('本当に削除しますか？'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('キャンセル'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              FocusScope.of(context).unfocus();
+              delete(id);
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void add(String? id) {
     final cash = Cash(
       id: id ??= getRandomId(),
@@ -50,6 +77,10 @@ class _CashNew extends ConsumerState<CashNew> {
       memo: memoController.text,
     );
     ref.read(cashProvider.notifier).create(cash);
+  }
+
+  void delete(String id) {
+    ref.read(cashProvider.notifier).delete(id);
   }
 
   void setInitialVal(String? id) {
@@ -88,53 +119,58 @@ class _CashNew extends ConsumerState<CashNew> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.orange,
       ),
-      body: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Form(
-                  key: _key,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      DatePicker(
-                        controller: dateController,
-                        initialDate: currentDate,
-                        dateSetter: dateSetter,
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Form(
+                key: _key,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DatePicker(
+                      controller: dateController,
+                      initialDate: currentDate,
+                      dateSetter: dateSetter,
+                    ),
+                    MemberSelecter(controller: memberController),
+                    CategorySelecter(controller: categoryController),
+                    PriceForm(controller: priceController),
+                    MemoForm(controller: memoController, focusNode: focusNode),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          isEdit
+                              ? ElevatedButton(
+                                  onPressed: () => deleteConfirm(id),
+                                  style: ElevatedButton.styleFrom(
+                                    primary:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                  child: const Text('削除'),
+                                )
+                              : Container(),
+                          ElevatedButton(
+                            onPressed: () {
+                              FocusScope.of(context).unfocus();
+                              if (_key.currentState!.validate()) {
+                                add(id);
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            child: const Text('保存'),
+                          ),
+                        ],
                       ),
-                      MemberSelecter(controller: memberController),
-                      CategorySelecter(controller: categoryController),
-                      PriceForm(controller: priceController),
-                      MemoForm(
-                          controller: memoController, focusNode: focusNode),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                FocusScope.of(context).unfocus();
-                                if (_key.currentState!.validate()) {
-                                  add(id);
-                                  Navigator.of(context).pop();
-                                }
-                              },
-                              child: const Text('保存'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -92,7 +92,7 @@ class _BaseBottomNavigationBarState extends State<BaseBottomNavigationBar> {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       elevation: 10,
-      fixedColor: Colors.amber[700],
+      fixedColor: Theme.of(context).colorScheme.primary,
       items: <BottomNavigationBarItem>[
         ...icons.map(
           (e) => BottomNavigationBarItem(

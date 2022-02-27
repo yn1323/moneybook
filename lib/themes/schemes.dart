@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 const locale = Locale("ja", "JP");
 
 final ColorScheme lightTheme = ColorScheme(
-  primary: Colors.amber[700]!, // appBarの背景、ElevatedButtonの色など
-  primaryVariant: Colors.amber[900]!,
-  secondary: Colors.green[600]!, // FloatingActionButtonの色など
-  secondaryVariant: Colors.green[800]!,
+  primary: Colors.teal[600]!, // appBarの背景、ElevatedButtonの色など
+  primaryVariant: Colors.teal[900]!,
+  secondary: Colors.amber[600]!, // FloatingActionButtonの色など
+  secondaryVariant: Colors.amber[800]!,
   surface: Colors.grey[200]!, // Cardの色など
   background: Colors.grey[200]!, // Scaffoldのbodyの背景色など
   error: Colors.red[600]!, // TextFormFieldのvalidation失敗時の色など

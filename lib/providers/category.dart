@@ -2,12 +2,27 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moneybook/firestore/common.dart';
 import 'package:moneybook/imports.dart';
+import 'package:moneybook/src/helper/constant/color.dart';
+import 'package:moneybook/src/helper/constant/icon.dart';
 
-typedef Categories = List<String>;
+class Category {
+  Category({
+    required this.label,
+    this.color = Colors.red,
+    this.icon = Icons.ac_unit,
+  });
+
+  String label;
+  Color color;
+  IconData icon;
+}
+
+typedef Categories = List<Category>;
 Categories initialVal = [
-  '食費',
-  '生活費',
-  '光熱費',
+  Category(
+      label: '食費', color: Colors.red, icon: categoryIcons['lunch_dining']!),
+  Category(label: '生活費', color: Colors.blue, icon: categoryIcons['grocery']!),
+  Category(label: '光熱費', color: Colors.green, icon: categoryIcons['bolt']!),
 ];
 
 class CategoryNotifier extends StateNotifier<Categories> {
@@ -29,26 +44,47 @@ class CategoryNotifier extends StateNotifier<Categories> {
     _subscribe = doc.collection('category').doc(id).snapshots().listen((event) {
       if (event.exists) {
         final data = event.data();
-        state = data?['category'].cast<String>();
+        final Categories categoriesList = [];
+        for (int i = 0; i < data?['category'].length; i++) {
+          final defaultColor = data?['color']?[i] != null
+              ? colorThemes[data?['color'][i]]
+              : randomColor();
+          final defaultIcon = data?['icon']?[i] != null
+              ? categoryIcons[data?['icon'][i]]
+              : randomIcon();
+          categoriesList.add(
+            Category(
+              label: data?['category'][i],
+              color: defaultColor as Color,
+              icon: defaultIcon as IconData,
+            ),
+          );
+        }
+        state = categoriesList;
       }
     });
   }
 
-  Future<void> _update(Categories category) async {
+  Future<void> _update(Categories categories) async {
     final doc = getDoc();
     final id = await getShareId();
+    final labels = categories.map((e) => e.label).toList();
+    final icons = categories.map((e) => getIconKey(e.icon)).toList();
+    final colors = categories.map((e) => getColorKey(e.color)).toList();
     await doc.collection('category').doc(id).set({
-      'category': category,
+      'category': labels,
+      'icon': icons,
+      'color': colors,
     });
   }
 
-  Future<void> add(String addItem) async {
+  Future<void> add(Category addItem) async {
     final nextItems = [...state];
     nextItems.add(addItem);
     _update(nextItems);
   }
 
-  Future<void> edit({int index = 0, String nextCategory = ''}) async {
+  Future<void> edit({int index = 0, required Category nextCategory}) async {
     final nextItems = [...state];
     nextItems[index] = nextCategory;
     _update(nextItems);
@@ -62,6 +98,14 @@ class CategoryNotifier extends StateNotifier<Categories> {
     final nextItems = [...state];
     nextItems.removeAt(index);
     _update(nextItems);
+  }
+
+  Category findByLabel(String label) {
+    return state.firstWhere(
+      (element) => element.label == label,
+      orElse: () => Category(
+          label: label, color: Colors.grey, icon: Icons.help_center_outlined),
+    );
   }
 }
 

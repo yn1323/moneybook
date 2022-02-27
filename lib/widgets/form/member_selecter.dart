@@ -15,23 +15,30 @@ class MemberSelecter extends ConsumerStatefulWidget {
 class _MemberSelecter extends ConsumerState<MemberSelecter> {
   @override
   Widget build(BuildContext context) {
-    final members = ref.read(memberProvider);
+    final members = ref.watch(memberProvider);
+    final hasMember = members.isNotEmpty;
+    if (!hasMember && widget.controller.text.isEmpty) {
+      return Container();
+    }
+
     return GestureDetector(
       onTap: () async {
         FocusManager.instance.primaryFocus?.unfocus();
         String? result = await showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: members
-                  .map(
-                    (member) => ListTile(
-                      title: Text(member),
-                      onTap: () => Navigator.of(context).pop(member),
-                    ),
-                  )
-                  .toList(),
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: members
+                    .map(
+                      (member) => ListTile(
+                        title: Text(member.label),
+                        onTap: () => Navigator.of(context).pop(member.label),
+                      ),
+                    )
+                    .toList(),
+              ),
             );
           },
         );
@@ -46,12 +53,6 @@ class _MemberSelecter extends ConsumerState<MemberSelecter> {
             labelText: '支払',
             prefixIcon: Icon(Icons.person),
           ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return '支払い者を入力してください。';
-            }
-            return null;
-          },
         ),
       ),
     );
