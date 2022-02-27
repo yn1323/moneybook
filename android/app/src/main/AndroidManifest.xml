@@ -2,7 +2,7 @@
     package="com.croissantlab.cashbook">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
-        android:label="moneybook"
+        android:label="みんなDE家計簿"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
         android:usesCleartextTraffic="true"
