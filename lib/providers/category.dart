@@ -101,9 +101,11 @@ class CategoryNotifier extends StateNotifier<Categories> {
   }
 
   Category findByLabel(String label) {
-    return state.firstWhere((element) => element.label == label) ??
-        Category(
-            label: label, color: Colors.grey, icon: Icons.help_center_outlined);
+    return state.firstWhere(
+      (element) => element.label == label,
+      orElse: () => Category(
+          label: label, color: Colors.grey, icon: Icons.help_center_outlined),
+    );
   }
 }
 

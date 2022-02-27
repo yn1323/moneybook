@@ -11,6 +11,7 @@ class PieChartData {
   final int number;
   final MaterialColor theme;
   final Currency currency;
+  final IconData icon;
   charts.Color? color;
   String label = '';
 
@@ -18,6 +19,7 @@ class PieChartData {
       {required this.domain,
       required this.number,
       required this.currency,
+      required this.icon,
       this.theme = Colors.amber}) {
     color = charts.ColorUtil.fromDartColor(theme[300]!);
     final prefix = currency.isPrefix ? currency.currency : '';

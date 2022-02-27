@@ -94,6 +94,14 @@ class MemberNotifier extends StateNotifier<Members> {
     nextItems.removeAt(index);
     _update(nextItems);
   }
+
+  Member findByLabel(String label) {
+    return state.firstWhere(
+      (element) => element.label == label,
+      orElse: () => Member(
+          label: label, color: Colors.grey, icon: Icons.help_center_outlined),
+    );
+  }
 }
 
 final memberProvider = StateNotifierProvider<MemberNotifier, Members>(

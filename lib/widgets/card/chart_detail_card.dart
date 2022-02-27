@@ -1,5 +1,6 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/widgets/chart/pie_chart.dart';
+import 'package:moneybook/widgets/text/text_with_icon.dart';
 
 class ChartDetailCard extends HookConsumerWidget {
   const ChartDetailCard({Key? key, required this.data}) : super(key: key);
@@ -12,7 +13,7 @@ class ChartDetailCard extends HookConsumerWidget {
     var padding = MediaQuery.of(context).viewPadding;
     double height1 = deviceHeight - padding.top - padding.bottom;
 
-    if (data.any((element) => element.domain == '')) {
+    if (data.every((element) => element.domain == '')) {
       return Container();
     }
     return SizedBox(
@@ -20,19 +21,20 @@ class ChartDetailCard extends HookConsumerWidget {
       child: ListView(
         children: data
             .map(
-              (e) => Container(
-                color: e.theme[100],
-                child: SizedBox(
-                  height: 50,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 70),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(e.domain),
-                        Text(e.label),
-                      ],
-                    ),
+              (e) => SizedBox(
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextWithIcon(
+                        fillColor: e.theme,
+                        icon: e.icon,
+                        text: e.domain,
+                      ),
+                      Text(e.label),
+                    ],
                   ),
                 ),
               ),

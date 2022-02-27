@@ -7,6 +7,7 @@ import 'package:moneybook/src/helper/string.dart';
 
 import 'package:flutter/material.dart';
 import 'package:moneybook/widgets/shape/circle_icon.dart';
+import 'package:moneybook/widgets/text/text_with_icon.dart';
 
 class CardCash extends ConsumerStatefulWidget {
   const CardCash({Key? key, required this.cash}) : super(key: key);
@@ -47,6 +48,8 @@ class _CardCash extends ConsumerState<CardCash> {
     final textColor = getTextColor(date);
     final category =
         ref.read(categoryProvider.notifier).findByLabel(widget.cash.category);
+    final fillColor = category.color;
+    final icon = category.icon;
 
     return Column(
       children: [
@@ -80,17 +83,10 @@ class _CardCash extends ConsumerState<CardCash> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                            child: CircleIcon(
-                                fillColor: category.color,
-                                icon: category.icon,
-                                size: 20),
-                          ),
-                          Text(widget.cash.category),
-                        ],
+                      TextWithIcon(
+                        fillColor: fillColor,
+                        icon: icon,
+                        text: widget.cash.category,
                       ),
                       if (widget.cash.member.isNotEmpty)
                         Text(widget.cash.member),
