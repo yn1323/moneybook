@@ -62,6 +62,7 @@ class _IconSelector extends ConsumerState<IconSelector> {
                     primary: Theme.of(context).colorScheme.surface,
                   ),
                   onPressed: () async {
+                    FocusScope.of(context).unfocus();
                     await showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
@@ -79,6 +80,7 @@ class _IconSelector extends ConsumerState<IconSelector> {
                     primary: Theme.of(context).colorScheme.surface,
                   ),
                   onPressed: () async {
+                    FocusScope.of(context).unfocus();
                     await showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {

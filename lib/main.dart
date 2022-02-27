@@ -56,38 +56,43 @@ class MyApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder(
-      future: _init(ref),
-      builder: (BuildContext context, AsyncSnapshot<void> snapshot) =>
-          MaterialApp(
-        locale: locale,
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          locale,
-        ],
-        theme: ThemeData.from(colorScheme: lightTheme),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const CategoryPage(),
-          '/chart': (context) => const ChartPage(),
-          '/category': (context) => const CategoryPage(),
-          '/config': (context) => const ConfigPage(),
-          // '/': (context) => const DbStub(),
-          '/config/id': (context) => const ConfigId(),
-          '/config/currency': (context) => const ConfigCurrency(),
-          '/config/budget': (context) => const ConfigBudget(),
-          '/category/new': (context) => const CategoryNew(),
-          '/category/edit': (context) => const CategoryNew(),
-          '/member/new': (context) => const MemberNew(),
-          '/member/edit': (context) => const MemberNew(),
-          '/cash/new': (context) => const CashNew(),
-          '/cash/edit': (context, {id}) => const CashNew(),
-          '/filter': (context, {id}) => const Filter(),
-        },
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: FutureBuilder(
+        future: _init(ref),
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) =>
+            MaterialApp(
+          locale: locale,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            locale,
+          ],
+          theme: ThemeData.from(colorScheme: lightTheme),
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const CategoryPage(),
+            '/chart': (context) => const ChartPage(),
+            '/category': (context) => const CategoryPage(),
+            '/config': (context) => const ConfigPage(),
+            // '/': (context) => const DbStub(),
+            '/config/id': (context) => const ConfigId(),
+            '/config/currency': (context) => const ConfigCurrency(),
+            '/config/budget': (context) => const ConfigBudget(),
+            '/category/new': (context) => const CategoryNew(),
+            '/category/edit': (context) => const CategoryNew(),
+            '/member/new': (context) => const MemberNew(),
+            '/member/edit': (context) => const MemberNew(),
+            '/cash/new': (context) => const CashNew(),
+            '/cash/edit': (context, {id}) => const CashNew(),
+            '/filter': (context, {id}) => const Filter(),
+          },
+        ),
       ),
     );
   }

@@ -120,62 +120,57 @@ class _CashNew extends ConsumerState<CashNew> {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Form(
-                  key: _key,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      DatePicker(
-                        controller: dateController,
-                        initialDate: currentDate,
-                        dateSetter: dateSetter,
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Form(
+                key: _key,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DatePicker(
+                      controller: dateController,
+                      initialDate: currentDate,
+                      dateSetter: dateSetter,
+                    ),
+                    MemberSelecter(controller: memberController),
+                    CategorySelecter(controller: categoryController),
+                    PriceForm(controller: priceController),
+                    MemoForm(controller: memoController, focusNode: focusNode),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          isEdit
+                              ? ElevatedButton(
+                                  onPressed: () => deleteConfirm(id),
+                                  style: ElevatedButton.styleFrom(
+                                    primary:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                  child: const Text('削除'),
+                                )
+                              : Container(),
+                          ElevatedButton(
+                            onPressed: () {
+                              FocusScope.of(context).unfocus();
+                              if (_key.currentState!.validate()) {
+                                add(id);
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            child: const Text('保存'),
+                          ),
+                        ],
                       ),
-                      MemberSelecter(controller: memberController),
-                      CategorySelecter(controller: categoryController),
-                      PriceForm(controller: priceController),
-                      MemoForm(
-                          controller: memoController, focusNode: focusNode),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            isEdit
-                                ? ElevatedButton(
-                                    onPressed: () => deleteConfirm(id),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                    ),
-                                    child: const Text('削除'),
-                                  )
-                                : Container(),
-                            ElevatedButton(
-                              onPressed: () {
-                                FocusScope.of(context).unfocus();
-                                if (_key.currentState!.validate()) {
-                                  add(id);
-                                  Navigator.of(context).pop();
-                                }
-                              },
-                              child: const Text('保存'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
