@@ -1,6 +1,7 @@
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/src/helper/list.dart';
+import 'package:moneybook/widgets/shape/circle_icon.dart';
 
 class Category extends ConsumerStatefulWidget {
   const Category({
@@ -20,7 +21,19 @@ class _Category extends ConsumerState<Category> {
           .map(
             (category) => ListTile(
               key: Key(categories.indexOf(category).toString()),
-              title: Text(category.label),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: CircleIcon(
+                        fillColor: category.color,
+                        icon: category.icon,
+                        size: 24),
+                  ),
+                  Text(category.label)
+                ],
+              ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

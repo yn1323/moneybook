@@ -3,7 +3,9 @@ import 'package:moneybook/imports.dart';
 const Map<String, IconData> categoryIcons = {
   'home': Icons.home,
   'restaurant': Icons.restaurant,
+  'grocery': Icons.local_grocery_store,
   'directions_car': Icons.directions_car,
+  'bath': Icons.bathtub,
   'flight': Icons.flight,
   'train': Icons.train,
   'festival': Icons.festival,
@@ -43,7 +45,8 @@ const Map<String, IconData> categoryIcons = {
   'bento': Icons.bento,
   'chair': Icons.chair,
   'coffee': Icons.coffee,
-  'light': Icons.light
+  'light': Icons.light,
+  'question': Icons.help_center_outlined
 };
 
 IconData randomIcon() {

@@ -14,18 +14,16 @@ class CircleIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AbsorbPointer(
-      child: RawMaterialButton(
-        onPressed: () {},
-        elevation: 2.0,
-        fillColor: fillColor,
-        child: Icon(
-          icon,
-          color: Colors.grey[200],
-          size: size,
-        ),
-        padding: const EdgeInsets.all(10.0),
-        shape: const CircleBorder(),
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(500),
+        color: fillColor,
+      ),
+      child: Icon(
+        icon,
+        color: Colors.grey[200],
+        size: size,
       ),
     );
   }

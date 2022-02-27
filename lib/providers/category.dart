@@ -19,9 +19,10 @@ class Category {
 
 typedef Categories = List<Category>;
 Categories initialVal = [
-  Category(label: '食費'),
-  Category(label: '生活費'),
-  Category(label: '光熱費'),
+  Category(
+      label: '食費', color: Colors.red, icon: categoryIcons['lunch_dining']!),
+  Category(label: '生活費', color: Colors.blue, icon: categoryIcons['grocery']!),
+  Category(label: '光熱費', color: Colors.green, icon: categoryIcons['bolt']!),
 ];
 
 class CategoryNotifier extends StateNotifier<Categories> {
