@@ -117,6 +117,13 @@ class _MemberNew extends ConsumerState<MemberNew> {
                       if (isMax) {
                         return 'メンバー数が最大です。\n既にあるメンバーを削除してください。';
                       }
+                      List<Member> clone = [...currentMember];
+                      if (isEdit) {
+                        clone.removeAt(index);
+                      }
+                      if (clone.any((element) => element.label == value)) {
+                        return '同名のメンバーが存在してます。';
+                      }
                       return null;
                     },
                   ),

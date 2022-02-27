@@ -136,6 +136,13 @@ class _CategoryNew extends ConsumerState<CategoryNew> {
                       if (!isEdit && isMax) {
                         return 'カテゴリー数が最大です。\n既にあるカテゴリーを削除してください。';
                       }
+                      List<Category> clone = [...currentCategory];
+                      if (isEdit) {
+                        clone.removeAt(index);
+                      }
+                      if (clone.any((element) => element.label == value)) {
+                        return '同名のカテゴリーが存在してます。';
+                      }
                       return null;
                     },
                   ),
