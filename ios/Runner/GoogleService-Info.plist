@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>630900337072-13cigvb2b8epb5sehtsml4tr5qjaiiaa.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.630900337072-13cigvb2b8epb5sehtsml4tr5qjaiiaa</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC_nSqROelEgKYkjUcc0_TOMzjuzg43cOo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>630900337072</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.croissantlab.cashbook</string>
+	<key>PROJECT_ID</key>
+	<string>my-mobile-apk</string>
+	<key>STORAGE_BUCKET</key>
+	<string>my-mobile-apk.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:630900337072:ios:102a180d5f1b7615868e75</string>
+	<key>DATABASE_URL</key>
+	<string>https://my-mobile-apk-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
