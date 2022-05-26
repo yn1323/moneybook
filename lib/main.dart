@@ -14,6 +14,7 @@ import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/id.dart';
 import 'package:moneybook/providers/member.dart';
+import 'package:moneybook/providers/states.dart';
 import 'package:moneybook/themes/schemes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moneybook/pages/modal/config_currency.dart';
@@ -47,6 +48,7 @@ class MyApp extends HookConsumerWidget {
   Future<void> _init(WidgetRef ref) async {
     // await Hive.deleteFromDisk();
     ref.read(idProvider.notifier).initialize();
+    ref.read(statesProvider.notifier).initialize();
     final id = ref.watch(idProvider);
     ref.read(currencyProvider.notifier).subscribe(id: id);
     ref.read(categoryProvider.notifier).subscribe(id: id);
