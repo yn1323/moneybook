@@ -28,6 +28,7 @@ class _CategorySelecter extends ConsumerState<CategorySelecter> {
                 children: categories
                     .map(
                       (category) => ListTile(
+                        leading: Icon(category.icon, color: category.color),
                         title: Text(category.label),
                         onTap: () => Navigator.of(context).pop(category.label),
                       ),
