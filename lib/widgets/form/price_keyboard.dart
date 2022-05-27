@@ -7,7 +7,7 @@ class KeyboardLabel {
 }
 
 Widget textLabel(String str) =>
-    Text(str, style: const TextStyle(fontSize: 20, color: Colors.white));
+    Text(str, style: const TextStyle(fontSize: 30, color: Colors.white));
 Widget iconlabel(IconData icons) => Icon(icons, size: 30);
 
 final List<KeyboardLabel> keyboardKeys = [
