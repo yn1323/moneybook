@@ -89,6 +89,11 @@ class CashNotifier extends StateNotifier<AllCashList> {
           diffDateFromPrev: diffDateFromPrev,
         );
       }).toList();
+
+      // ignore: iterable_contains_unrelated_type
+      if (!list.contains((Cash e) => e.diffDateFromPrev == true)) {
+        list[0].diffDateFromPrev = true;
+      }
       final AllCashList newState = Map.from(state);
       newState[dateStr] = list;
       state = newState;
