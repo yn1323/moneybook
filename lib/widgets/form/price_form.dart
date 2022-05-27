@@ -24,6 +24,7 @@ class _PriceForm extends ConsumerState<PriceForm> {
         FocusManager.instance.primaryFocus?.unfocus();
         String? result = await showModalBottomSheet(
           context: context,
+          barrierColor: Colors.transparent,
           builder: (BuildContext context) {
             return PriceKeyboard(
               controller: widget.controller,
