@@ -1,2 +1,2 @@
-const maxCategoryNum = 10;
-const maxMemberNum = 10;
+const maxCategoryNum = 30;
+const maxMemberNum = 30;

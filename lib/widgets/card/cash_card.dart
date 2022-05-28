@@ -6,6 +6,7 @@ import 'package:moneybook/src/helper/date.dart';
 import 'package:moneybook/src/helper/string.dart';
 
 import 'package:flutter/material.dart';
+import 'package:moneybook/widgets/ad/list_ad.dart';
 import 'package:moneybook/widgets/text/text_with_icon.dart';
 
 class CardCash extends ConsumerStatefulWidget {
@@ -109,6 +110,7 @@ class _CardCash extends ConsumerState<CardCash> {
             ),
           ),
         ),
+        if (widget.cash.showAd) const ListAd(),
       ],
     );
   }

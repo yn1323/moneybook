@@ -89,6 +89,11 @@ class CashNotifier extends StateNotifier<AllCashList> {
           diffDateFromPrev: diffDateFromPrev,
         );
       }).toList();
+
+      // ignore: iterable_contains_unrelated_type
+      if (!list.contains((Cash e) => e.diffDateFromPrev == true)) {
+        list[0].diffDateFromPrev = true;
+      }
       final AllCashList newState = Map.from(state);
       newState[dateStr] = list;
       state = newState;
@@ -150,6 +155,19 @@ class CashNotifier extends StateNotifier<AllCashList> {
 
       return true;
     }).toList();
+
+    if (data.isNotEmpty) {
+      int dateCount = 0;
+      data.asMap().forEach((index, element) {
+        if (element.diffDateFromPrev == false) return;
+        if (dateCount % 7 == 0 && index != 0) {
+          data[index - 1].showAd = true;
+        }
+        dateCount += 1;
+      });
+      data[data.length - 1].showAd = true;
+    }
+
     return data;
   }
 
