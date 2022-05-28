@@ -31,11 +31,11 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 typedef CategoryEditArgs = Map<String, dynamic>;
 
 void main() async {
-  MobileAds.instance.initialize();
   await Hive.initFlutter();
   await Firebase.initializeApp();
   final auth = FirebaseAuth.instance;
   await auth.signInAnonymously();
+  MobileAds.instance.initialize();
   runApp(
     const ProviderScope(
       child: MyApp(),

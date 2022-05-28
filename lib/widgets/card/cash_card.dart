@@ -1,4 +1,3 @@
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/models/cash.dart';
 import 'package:moneybook/providers/category.dart';
@@ -7,6 +6,7 @@ import 'package:moneybook/src/helper/date.dart';
 import 'package:moneybook/src/helper/string.dart';
 
 import 'package:flutter/material.dart';
+import 'package:moneybook/widgets/ad/list_ad.dart';
 import 'package:moneybook/widgets/text/text_with_icon.dart';
 
 class CardCash extends ConsumerStatefulWidget {
@@ -52,19 +52,8 @@ class _CardCash extends ConsumerState<CardCash> {
     final icon = category.icon;
     final hasMember = widget.cash.member.isNotEmpty;
 
-    // バナー広告をインスタンス化
-    BannerAd myBanner = BannerAd(
-      adUnitId: "ca-app-pub-3940256099942544/6300978111",
-      size: AdSize.banner,
-      request: const AdRequest(),
-      listener: const BannerAdListener(),
-    );
-    // バナー広告の読み込み
-    myBanner.load();
-
     return Column(
       children: [
-        // AdWidget(ad: myBanner),
         if (diffDateFromPrev)
           SizedBox(
             height: 40,
@@ -121,6 +110,7 @@ class _CardCash extends ConsumerState<CardCash> {
             ),
           ),
         ),
+        if (widget.cash.showAd) const ListAd(),
       ],
     );
   }
