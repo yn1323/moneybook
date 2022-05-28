@@ -31,6 +31,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 typedef CategoryEditArgs = Map<String, dynamic>;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Firebase.initializeApp();
   final auth = FirebaseAuth.instance;
