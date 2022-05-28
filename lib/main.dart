@@ -14,6 +14,7 @@ import 'package:moneybook/providers/category.dart';
 import 'package:moneybook/providers/currency.dart';
 import 'package:moneybook/providers/id.dart';
 import 'package:moneybook/providers/member.dart';
+import 'package:moneybook/providers/states.dart';
 import 'package:moneybook/themes/schemes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moneybook/pages/modal/config_currency.dart';
@@ -25,12 +26,17 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+typedef CategoryEditArgs = Map<String, dynamic>;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Firebase.initializeApp();
   final auth = FirebaseAuth.instance;
   await auth.signInAnonymously();
+  MobileAds.instance.initialize();
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -46,6 +52,7 @@ class MyApp extends HookConsumerWidget {
   Future<void> _init(WidgetRef ref) async {
     // await Hive.deleteFromDisk();
     ref.read(idProvider.notifier).initialize();
+    ref.read(statesProvider.notifier).initialize();
     final id = ref.watch(idProvider);
     ref.read(currencyProvider.notifier).subscribe(id: id);
     ref.read(categoryProvider.notifier).subscribe(id: id);

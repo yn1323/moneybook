@@ -2,7 +2,6 @@ import 'package:moneybook/constants/index.dart';
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/providers/member.dart';
 import 'package:moneybook/src/helper/constant/color.dart';
-import 'package:moneybook/src/helper/constant/icon.dart';
 import 'package:moneybook/widgets/form/icon_selector.dart';
 
 class MemberNew extends ConsumerStatefulWidget {

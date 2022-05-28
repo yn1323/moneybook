@@ -2,6 +2,7 @@ import 'package:moneybook/firestore/common.dart';
 import 'package:moneybook/imports.dart';
 import 'package:moneybook/models/cash.dart';
 import 'package:moneybook/providers/cash.dart';
+import 'package:moneybook/providers/states.dart';
 import 'package:moneybook/widgets/form/category_selector.dart';
 import 'package:moneybook/widgets/form/date_picker.dart';
 import 'package:moneybook/widgets/form/member_selecter.dart';
@@ -84,7 +85,9 @@ class _CashNew extends ConsumerState<CashNew> {
   }
 
   void setInitialVal(String? id) {
-    if (id != null && !isExecuted) {
+    if (isExecuted) return;
+
+    if (id != null) {
       try {
         Cash? cash = ref.read(cashProvider.notifier).findCashById(id);
         if (cash == null) {
@@ -102,6 +105,20 @@ class _CashNew extends ConsumerState<CashNew> {
     setState(() => isExecuted = true);
   }
 
+  void setPreviousVal() {
+    final states = ref.read(statesProvider);
+    memberController.text = states.prevMember != '' ? states.prevMember : '';
+    categoryController.text =
+        states.prevCategory != '' ? states.prevCategory : '';
+  }
+
+  void saveCurrentSelection(bool isEdit) {
+    if (isEdit) return;
+    final statesFunc = ref.read(statesProvider.notifier);
+    statesFunc.savePrevCategory(categoryController.text);
+    statesFunc.savePrevMember(memberController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     final isEdit = ModalRoute.of(context)?.settings.name == '/cash/edit';
@@ -114,6 +131,8 @@ class _CashNew extends ConsumerState<CashNew> {
       id = args['id'] as String;
       currentDate = args['date'] as DateTime;
       setInitialVal(id);
+    } else {
+      setPreviousVal();
     }
 
     return Scaffold(
@@ -158,6 +177,7 @@ class _CashNew extends ConsumerState<CashNew> {
                             onPressed: () {
                               FocusScope.of(context).unfocus();
                               if (_key.currentState!.validate()) {
+                                saveCurrentSelection(isEdit);
                                 add(id);
                                 Navigator.of(context).pop();
                               }

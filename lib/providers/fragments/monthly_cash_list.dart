@@ -12,9 +12,10 @@ final monthlyCashList = Provider<List<Cash>>((ref) {
   final filterMember = ref.watch(filterProvider).member;
 
   List<Cash> list = ref.read(cashProvider.notifier).filterCashList(
-      year: date.year,
-      month: date.month,
-      category: filterCategory,
-      member: filterMember);
+        year: date.year,
+        month: date.month,
+        category: filterCategory,
+        member: filterMember,
+      );
   return list;
 });

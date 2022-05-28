@@ -9,6 +9,7 @@ class Cash {
     required this.price,
     required this.memo,
     this.diffDateFromPrev = false,
+    this.showAd = false,
   });
 
   String id;
@@ -18,11 +19,12 @@ class Cash {
   String memo;
   int price;
   bool diffDateFromPrev = false;
+  bool showAd = false;
 
   @override
   String toString() {
     String d = date.toString();
     String p = price.toString();
-    return "id: $id, price: $p, category: $category, member: $member, data: $d, memo: $memo, diffDateFromPrev: $diffDateFromPrev";
+    return "id: $id, price: $p, category: $category, member: $member, data: $d, memo: $memo, diffDateFromPrev: $diffDateFromPrev, showAd: $showAd";
   }
 }
